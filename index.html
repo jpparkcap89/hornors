@@ -422,6 +422,42 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 .who-dot[hidden]{display:none}
 @media (max-height:700px){.pl-card,.pv-card,.pn-card{max-height:calc(100vh - 10px)}}
 
+
+/* ── 정관 문서 ── */
+.bl-card{width:min(760px,100%);height:min(88vh,980px);border-radius:var(--r-xl);background:rgba(255,255,255,.97);border:1px solid var(--panel-line);box-shadow:var(--shadow);overflow:hidden;animation:pageIn .3s both}
+.bl-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
+.bl-sticky{position:sticky;top:0;z-index:2;padding:26px 30px 12px;background:linear-gradient(rgba(255,255,255,.98) 85%,rgba(255,255,255,.9));border-bottom:1px solid var(--hairline);backdrop-filter:blur(8px)}
+.bl-sticky .x-btn{right:18px;top:18px}
+.bl-sticky h3{margin:4px 44px 0 0;font-size:26px;font-weight:850;letter-spacing:-.03em;line-height:1.3}
+.bl-meta{margin:4px 0 0;font-size:13.5px;color:var(--muted);font-weight:650}
+.bl-tools{display:flex;align-items:center;gap:10px;margin-top:14px}
+.bl-tools input{flex:1;min-width:0;height:42px;padding:0 14px;border:0;border-radius:12px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);font:inherit;font-size:15px;color:var(--ink);outline:none}
+.bl-tools input:focus{box-shadow:inset 0 0 0 2px var(--primary)}
+.bl-tools span{flex:none;font-size:13px;font-weight:700;color:var(--primary)}
+.bl-chips{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+.bl-chips::-webkit-scrollbar{display:none}
+.bl-chips button{flex:none;height:34px;padding:0 13px;border:1px solid rgba(59,99,246,.18);border-radius:999px;background:#fff;font:inherit;font-size:13px;font-weight:750;color:var(--primary);cursor:pointer}
+.bl-chips button:hover{background:var(--ux-accent-soft)}
+.bl-body{padding:8px 30px 40px;font-family:var(--font);color:var(--ink)}
+.bl-ch{padding-top:18px}
+.bl-ch h4{display:flex;align-items:baseline;gap:10px;margin:8px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--ink);font-size:21px;font-weight:850;letter-spacing:-.02em}
+.bl-ch h4 span{font-size:14px;font-weight:800;color:var(--primary)}
+.bl-art{padding:12px 0 6px}
+.bl-at{display:inline-block;margin:0 0 6px;font-size:16px;font-weight:800;border-bottom:2px solid rgba(59,99,246,.35)}
+.bl-art h5:not(.bl-at){margin:12px 0 4px;font-size:15px;font-weight:800}
+.bl-art p{margin:0 0 6px;font-size:15.5px;line-height:1.8}
+.bl-art ul{margin:4px 0 8px;padding-left:4px;list-style:none}
+.bl-art li{margin:0 0 6px;padding-left:2px;font-size:15.5px;line-height:1.75}
+.bl-note{padding:8px 12px;border-radius:10px;background:var(--ux-surface-2);font-size:14px!important;color:var(--muted)}
+.bl-body mark{background:rgba(255,207,112,.6);border-radius:3px;padding:0 1px;color:inherit}
+.bl-none{padding:30px 0;text-align:center;color:var(--muted)}
+@media (max-width:640px){
+  #bylawsOv{padding:0;place-items:end center}
+  .bl-card{width:100%;height:94vh;border-radius:26px 26px 0 0;animation:sheetUp .45s var(--ux-spring) both}
+  .bl-sticky{padding:20px 18px 10px}.bl-sticky h3{font-size:21px}
+  .bl-body{padding:4px 18px 40px}
+}
+
 /* Lucian roots: let fixed-size elements shrink on narrow screens */
 .u059,.u039{max-width:100%}
 .u044{width:100%!important;height:auto!important}
@@ -790,7 +826,7 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 
 <section class="sec" id="rules">
   <div class="wrap">
-    <div class="sec-head"><div class="kicker">BYLAWS</div><h2>📜 정관 한눈에 보기</h2><p>1차 제정안(2026.10.26) 기준 요약입니다. 원문은 PDF로 확인하세요.</p></div>
+    <div class="sec-head"><div class="kicker">BYLAWS</div><h2>📜 정관 한눈에 보기</h2><p>2026년 10월 26일 제정, 11월 2일부터 시행된 정관을 요약했습니다. 전문은 <a href="#bylaws" data-bylaws>정관 보기</a>에서 확인하세요.</p></div>
     <div class="two">
 <!-- Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044 -->
 <style>
@@ -835,8 +871,8 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <div class="u044-body" role="region"><div><div class="u044-a"><p>참석한 회원끼리 N분의 1로 나눕니다. 모임 다음 날 총무가 1인 금액을 공지합니다.</p><a href="#money">장부 보기 <i aria-hidden="true">→</i></a></div></div></div>
   </div>
   <div class="u044-it">
-    <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">04</span><span class="u044-t">정관은 어떻게 바뀌나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
-    <div class="u044-body" role="region"><div><div class="u044-a"><p>1차 제정안을 바탕으로, 회원 안건을 정기모임에서 논의해 개정해 나갑니다.</p><a href="#history">모임 기록 보기 <i aria-hidden="true">→</i></a></div></div></div>
+    <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">04</span><span class="u044-t">정관에 없는 일은 어떻게 정하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+    <div class="u044-body" role="region"><div><div class="u044-a"><p>2026년 11월 2일부터 시행 중입니다. 정관에 없는 일은 사회 통념에 따라 처리하고, 의견이 갈리면 회원들과 합의해 회장이 최종 판단합니다.</p><a href="#bylaws" data-bylaws="">정관 전문 보기 <i aria-hidden="true">→</i></a></div></div></div>
   </div>
 </div>
 <script>
@@ -875,7 +911,7 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 })();
 </script>
       <div class="links">
-        <a class="lk" href="#" onclick="return false"><span class="e">📄</span><span><b>Q 아너스 정관 (1차 제정안)</b><small>PDF · 2026.10.26</small></span><i>→</i></a>
+        <a class="lk" href="#bylaws" data-bylaws><span class="e">📜</span><span><b>Q아너스 당구 팀 정관 전문</b><small>2026.10.26 제정 · 11.2 시행</small></span><i>→</i></a>
         <a class="lk" href="https://vision.cap89.com" target="_blank" rel="noopener"><span class="e">🏆</span><span><b>연말 당구대회</b><small>vision.cap89.com</small></span><i>→</i></a>
         <a class="lk" href="https://buzz.cap89.com" target="_blank" rel="noopener"><span class="e">🧩</span><span><b>모임용 퀴즈 앱</b><small>buzz.cap89.com</small></span><i>→</i></a>
       </div>
@@ -1255,6 +1291,24 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <p class="sh-tip">안내 문구는 고쳐서 보내도 돼요. 링크를 누른 회원은 로그인한 뒤 이 투표가 바로 열립니다.</p>
   </div>
 </div>
+<!-- 정관 -->
+<div class="overlay" id="bylawsOv" role="dialog" aria-modal="true" aria-labelledby="blTitle" hidden>
+  <div class="bl-card">
+    <div class="bl-scroll" id="blScroll">
+      <div class="bl-sticky">
+        <button class="x-btn" type="button" data-close="bylawsOv" aria-label="닫기">✕</button>
+        <div class="kicker">BYLAWS</div>
+        <h3 id="blTitle"></h3>
+        <p class="bl-meta" id="blMeta"></p>
+        <div class="bl-tools">
+          <input id="blSearch" type="search" placeholder="🔍 정관에서 찾기 (예: 회비, 탈퇴)" aria-label="정관에서 찾기"><span id="blCount"></span>
+        </div>
+        <div class="bl-chips" id="blChips"></div>
+      </div>
+      <div class="bl-body" id="blBody"></div>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1491,6 +1545,7 @@ async function loadData(){
   S.me = memberOf(r.me || local.get('user')) || null;
   document.body.classList.remove('locked');
   renderMembers(); renderWho(); syncCard(); renderPolls();
+  setTimeout(()=>{ try{ bylawsFromHash(); }catch(e){} }, 300);
   return true;
 }
 function authFail(r){
@@ -2021,6 +2076,87 @@ window.addEventListener('hashchange', openPollFromHash);
 const _renderPolls = renderPolls;
 let hashDone = false;
 renderPolls = function(){ _renderPolls(); if (!hashDone && S.me && pollFromHash()){ hashDone = true; setTimeout(openPollFromHash, 250); } };
+
+/* ============================================================
+   정관 (2026.10.26 제정 · 2026.11.2 시행) — 원문 그대로
+   ============================================================ */
+const BYLAWS = {
+  title: 'Q아너스(Q honors) 당구 팀 정관',
+  meta: '2026년 10월 26일 제정 · 2026년 11월 2일 시행',
+  chapters: [
+    { no:'제 1 장', t:'총칙', arts:[
+      { t:'제1조 (명칭)', p:['본 동호회의 명칭은 [Q아너스/Q honors) Billiards Team] 이라 칭한다.'] },
+      { t:'제2조 (소재)', p:['본회의 소재지는 평택시와 그 주변 도시로 한다.'] },
+      { t:'제3조 (목적)', p:['본회의 목적은 건전한 레저 스포츠인 당구를 통해 회원 상호 간의 친목 도모, 교류와 더불어 개인 기량을 증가시키며 당구 관련 정보 및 지식을 공유하는 것으로 한다.'] },
+      { t:'제4조 (사업)', p:['본회의 제3조에 명시한 목적 달성을 위하여 다음 각 항의 사업을 한다.',
+        {li:['1항. 자체대회를 통한 기량 검증 및 기술 향상','2항. 단합대회를 통한 회원 간의 친목 도모','3항. 지역/전국 대회 출전 적극 권장','4항. 사회공헌/지역사회 이바지']}] }
+    ]},
+    { no:'제 2 장', t:'회원 및 임원', arts:[
+      { t:'제5조 (회원자격)', p:['1항. 당구를 사랑하며 회원 간의 화합을 함께 이루어 나갈 수 있는 매너와 희생정신을 두루 겸비한자.'] },
+      { t:'제6조 (회원가입/탈퇴 및 상실)', p:[
+        {h:'1항. 신입회원가입'}, '신입회원의 가입은 명월 정기모임에서 전원 찬성시 입회 결정하며 총 회원수는 20명으로 제한한다.',
+        {h:'2항. 회원탈퇴'}, '총무 또는 회장에게 의사를 표함으로써 자유롭게 탈퇴할 수 있다.', '단, 탈퇴한 자의 가입비 및 월회비 등은 반납되지 않는다.',
+        {h:'3항. 회원자격상실'},
+        {li:['1) 연속 3회 이상 월회비 미납 시 회원자격이 자동으로 상실된다. 단, 회비 미납이 정당한 개인 사정으로 인정 될 경우 회원들의 협의하에 회원자격을 유지할 수 있다.',
+             '2) 그 밖에 명예실추,도덕성결여,폭력 등 본 회와 더 이상 함께할 수 없다고 판단되는 경우 명월 정기모임에서 회원들의 의견을 수렴하여 회원자격 상실 여부를 결정한다.',
+             '3) 자격상실 시에도 가입비 및 월회비는 반납되지 않는다.']}] },
+      { t:'제7조 (임원 구성/임기 및 선출)', p:[
+        {h:'1항. 임원 구성'}, '임원은 회장과 총무 2인으로 한다.',
+        {li:['1) 회장의 의무와 권리 : 회원들과 원활한 소통을 통해 친목 도모를 주 목적으로 하는 본회를 원만히 이끌어가는 전반적인 책임을 갖는다. 개별 사안에 대해 회원들의 의견이 일치하지 않을 경우 최종 결정 권한은 회장에게 있다.',
+             '2) 총무의 의무와 권리 : 통상적인 총무로서의 역할 및 재정관리도 함께 한다.']},
+        {note:'* 회장이 물리적인 사유로 인해 권한을 행사할 수 없을 경우 회장의 모든 권한은 총무에게 인계된다.'},
+        {h:'2항. 임원 임기'}, '회장과 총무 모두 임기는 1년으로 정한다.',
+        {h:'3항. 임원 선출'}, '매년 10월 중 열리는 정기 총회에서 회원의 추천에 따라 순환 임원제 (循環 役員制)로 순번을 정하여 돌아가면서 임원을 정한다.'] }
+    ]},
+    { no:'제 3 장', t:'재정 및 회계', arts:[
+      { t:'제8조 회비/가입비/재정/회계/감사/결산', p:[
+        {h:'1항. 월회비 및 신입회원 가입비'},
+        {li:['1) 월 회비 및 가입비 — 월 회비는 20,000원으로 하며 납부 시기는 매월 말일로 한다. 회비입금시 본인명(해당월)로 알기 쉽게 표기한다. (예, 홍길동(10월))',
+             '2) 신입회원은 가입 당시 모임 통장의 잔액을 1/N로 나눈 금액을 납입함으로써 정식 회원자격을 얻는다.']},
+        {note:'*참고 : 원활한 클럽 운영을 위해 자동이체를 권장합니다.'},
+        {h:'2항. 재정'}, '본 회의 재정은 가입비, 월회비, 찬조금, 특별회비 및 기타 수익금으로 한다.',
+        {h:'3항. 회계/감사/결산'}, '모든 회원은 본 회에서 개설한 카카오뱅크 모임계좌를 통해 수시로 수입, 지출 내역을 확인할 수 있는바 별도의 회계 및 감사 절차는 생략하기로 한다.',
+        '다만 수입 및 지출 내역을 인정할 수 없는 경우 총무에게 의견을 제시하여 명월 정기모임에서 상세한 내역보고를 받기로 한다.',
+        '특별지출이 필요할 경우 회원들 간의 협의를 통해 회장이 최종 승인한다.'] }
+    ]},
+    { no:'제 4 장', t:'부칙', arts:[
+      { t:'부칙', p:['1항. 본 정관의 규약 중 미비 된 사항은 사회 통념에 따라 원만하게 처리하기로 하며 의견 대립이 있을 경우 회원들과 합의하여 회장이 최종 판단한다.',
+                    '2항. 본 회칙의 내용은 2026년 11월 2일부터 그 효력이 발생한다.'] }
+    ]}
+  ]
+};
+function renderBylaws(){
+  const q = ($('#blSearch').value||'').trim();
+  const hi = s => { const e = esc(s); return q ? e.split(esc(q)).join('<mark>'+esc(q)+'</mark>') : e; };
+  const part = x => typeof x==='string' ? `<p>${hi(x)}</p>` : x.h ? `<h5>${hi(x.h)}</h5>` : x.note ? `<p class="bl-note">${hi(x.note)}</p>` : `<ul>${x.li.map(l=>`<li>${hi(l)}</li>`).join('')}</ul>`;
+  const txt = x => typeof x==='string' ? x : x.h || x.note || x.li.join(' ');
+  let hits = 0;
+  $('#blBody').innerHTML = BYLAWS.chapters.map((c,i)=>{
+    const arts = c.arts.filter(a=>!q || (a.t+' '+a.p.map(txt).join(' ')).includes(q));
+    hits += arts.length;
+    if (!arts.length) return '';
+    return `<section class="bl-ch" id="bl-ch${i}"><h4><span>${c.no}</span>${esc(c.t)}</h4>${arts.map(a=>`<article class="bl-art"><h5 class="bl-at">${hi(a.t)}</h5>${a.p.map(part).join('')}</article>`).join('')}</section>`;
+  }).join('') || '<p class="bl-none">찾는 내용이 없어요.</p>';
+  $('#blCount').textContent = q ? hits+'개 조항' : '';
+}
+function openBylaws(ch){
+  $('#blTitle').textContent = BYLAWS.title; $('#blMeta').textContent = BYLAWS.meta;
+  $('#blChips').innerHTML = BYLAWS.chapters.map((c,i)=>`<button type="button" data-i="${i}">${c.no.replace(/ /g,'')} ${esc(c.t)}</button>`).join('');
+  $('#blSearch').value = ''; renderBylaws();
+  $('#bylawsOv').hidden = false;
+  const sc = $('#blScroll'); sc.scrollTop = 0;
+  if (ch!=null) setTimeout(()=>jumpCh(ch), 50);
+  setTimeout(()=>$('#bylawsOv .x-btn').focus(), 60);
+}
+function jumpCh(i){ const el = document.getElementById('bl-ch'+i), sc = $('#blScroll'); if (el) sc.scrollTo({ top: el.offsetTop - sc.querySelector('.bl-sticky').offsetHeight - 6, behavior:'smooth' }); }
+$('#blChips').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; if ($('#blSearch').value){ $('#blSearch').value=''; renderBylaws(); } jumpCh(+b.dataset.i); });
+$('#blSearch').addEventListener('input', renderBylaws);
+$('#bylawsOv').addEventListener('click', e=>{ if (e.target.id==='bylawsOv') $('#bylawsOv').hidden=true; });
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#bylawsOv').hidden){ $('#bylawsOv').hidden=true; e.stopImmediatePropagation(); } }, true);
+/* 정관 메뉴 · 버튼 · #bylaws 링크 → 모달 */
+document.querySelectorAll('a[href="#rules"], [data-bylaws]').forEach(a=>a.addEventListener('click', e=>{ e.preventDefault(); openBylaws(); }));
+function bylawsFromHash(){ if (location.hash==='#bylaws' && S.me) openBylaws(); }
+window.addEventListener('hashchange', bylawsFromHash);
 </script>
 </body>
 </html>
