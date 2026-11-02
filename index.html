@@ -1432,9 +1432,10 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) links
 (async function init(){
   document.body.classList.add('locked');
   const cached = !DEMO && local.get('boot');
+  DEFAULT_SETTINGS.forEach(r=>{ S.settings[r[0]] = r[1]; });
   if (cached){ S.settings = cached.settings||{}; S.roster = cached.roster||[]; applySettings(); }
   try { const b = await Store.boot(); S.settings = b.settings; S.roster = b.roster; }
-  catch(e){ if (!cached) toast('⚠️ 사이트 정보를 불러오지 못했어요'); }
+  catch(e){ if (!cached){ DEFAULT_SETTINGS.forEach(r=>{ if (S.settings[r[0]]==null) S.settings[r[0]]=r[1]; }); toast('⚠️ 서버에 연결하지 못했어요. 잠시 뒤 새로고침해 주세요'); } }
   applySettings(); renderMembers(); renderWho(); syncCard();
   S.token = local.get('token');
   if (S.token && await loadData()) return;
