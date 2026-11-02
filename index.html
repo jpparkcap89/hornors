@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Q 아너스 · Q Honors</title>
 <meta name="description" content="비전 당구클럽에서 만난 좋은 사람들의 친목 모임, Q 아너스">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Q 아너스">
+<meta property="og:title" content="Q 아너스 · 투표와 모임 소식">
+<meta property="og:description" content="비전 당구클럽에서 시작된 친목 모임. 링크를 눌러 투표에 참여해 주세요.">
+<meta property="og:image" content="https://q.cap89.com/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://q.cap89.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='64' r='22' fill='%23e5484d'/%3E%3Ccircle cx='70' cy='64' r='22' fill='%23f5c518'/%3E%3Ccircle cx='50' cy='30' r='22' fill='%23fff' stroke='%23c7cfdb' stroke-width='3'/%3E%3C/svg%3E">">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap">
@@ -387,6 +394,19 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 .pn-swrow b{display:block;font-size:14px}
 .pn-swrow small{display:block;font-size:12px;color:var(--muted)}
 @media (max-width:520px){.poll-grid{grid-template-columns:1fr}.pn-row{grid-template-columns:1fr 1fr 30px}.pn-del{width:30px;height:30px}}
+
+
+.sh-card{width:min(460px,100%);text-align:left}
+.sh-card h3,.sh-card>p{text-align:center}
+.sh-l{display:block;margin-top:14px;font-size:13px;font-weight:700;color:var(--muted)}
+.sh-row{display:flex;gap:6px;align-items:center;margin-top:5px}
+.sh-row input{flex:1;min-width:0;height:42px;padding:0 12px;border:0;border-radius:12px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);font:inherit;font-size:13.5px;color:var(--ink)}
+.sh-l textarea{display:block;width:100%;margin-top:5px;padding:12px;border:0;border-radius:14px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);font:inherit;font-size:14px;line-height:1.55;color:var(--ink);resize:vertical;outline:none}
+.sh-l textarea:focus{box-shadow:inset 0 0 0 2px var(--primary)}
+.sh-btns{display:grid;gap:8px;margin-top:14px}
+.sh-btns .btn{justify-content:center}
+.sh-btns [hidden]{display:none}
+.sh-tip{margin:10px 0 0!important;font-size:12.5px!important;color:var(--muted);text-align:center}
 
 /* Lucian roots: let fixed-size elements shrink on narrow screens */
 .u059,.u039{max-width:100%}
@@ -1161,6 +1181,7 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <div class="pv-more">
       <button type="button" class="pv-link" id="pvCancel">투표 취소</button>
       <button type="button" class="pv-link" id="pvClose">⛔ 투표 마감</button>
+      <button type="button" class="pv-link" id="pvShare">🔗 링크 공유</button>
       <button type="button" class="pv-link strong" id="pvApply">📌 다음 모임 정보에 반영</button>
     </div>
   </div>
@@ -1197,6 +1218,22 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <p class="pf-err" id="pnErr" role="alert"></p>
     <button class="btn p pf-save" id="pnSubmit" type="submit">투표 만들기</button>
   </form>
+</div>
+<!-- 투표 링크 공유 -->
+<div class="overlay sheet" id="shareOv" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden>
+  <div class="ct-card sh-card">
+    <button class="x-btn" type="button" data-close="shareOv" aria-label="닫기">✕</button>
+    <h3 id="shTitle"></h3><p id="shSub"></p>
+    <label class="sh-l">투표 링크
+      <span class="sh-row"><input id="shLink" readonly><button type="button" class="ct-copy" id="shCopyLink">복사</button></span></label>
+    <label class="sh-l">단톡방 안내 문구
+      <textarea id="shText" rows="7"></textarea></label>
+    <div class="sh-btns">
+      <button type="button" class="btn p" id="shCopyMsg">📋 안내 문구 복사</button>
+      <button type="button" class="btn s" id="shNative">💬 카톡 등으로 보내기</button>
+    </div>
+    <p class="sh-tip">안내 문구는 고쳐서 보내도 돼요. 링크를 누른 회원은 로그인한 뒤 이 투표가 바로 열립니다.</p>
+  </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1658,6 +1695,7 @@ pf.addEventListener('submit', async e=>{
 $('#profileOv').addEventListener('click', e=>{ if (e.target.id==='profileOv') $('#profileOv').hidden=true; });
 document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#profileOv').hidden) $('#profileOv').hidden=true; });
 
+
 /* ============================================================
    투표: 날짜 · 장소 · 자유 / 익명·실명 · 복수 선택 · 항목 추가 · 결과 공개 시점 · 마감
    ============================================================ */
@@ -1900,10 +1938,60 @@ nf.addEventListener('submit', async e=>{
   err.textContent=''; const b=$('#pnSubmit'); b.disabled=true; b.textContent='만드는 중…';
   const r = await call(()=>Store.pollCreate(poll));
   b.disabled=false; b.textContent='투표 만들기';
-  if (r){ $('#pollNewOv').hidden=true; toast('🗳️ 투표를 만들었어요. 단톡방에 알려 주세요!'); openPoll(r.pollId); }
+  if (r){ $('#pollNewOv').hidden=true; openPoll(r.pollId); openShare(r.pollId, true); }
 });
 ['pollOv','pollNewOv'].forEach(id=>$('#'+id).addEventListener('click', e=>{ if (e.target.id===id) $('#'+id).hidden=true; }));
 document.addEventListener('keydown', e=>{ if (e.key!=='Escape') return; ['pollNewOv','pollOv'].some(id=>{ if (!$('#'+id).hidden){ $('#'+id).hidden=true; return true; } }); });
+
+/* ── 투표 링크: q.cap89.com/#poll-<id> → 로그인 후 바로 그 투표가 열립니다 ── */
+const SITE_URL = location.origin && /^https?:/.test(location.origin) ? location.origin + location.pathname : 'https://q.cap89.com/';
+function pollLink(id){ return SITE_URL + '#poll-' + id; }
+function shareText(p){
+  const k = KIND[p.kind]||KIND.free, due = p.deadline ? '\n⏰ ' + dueText(p) : '';
+  const opts = p.options.slice(0,6).map(o=>{ const v=optView(p,o); return '· '+v.main+(v.sub?' '+v.sub:''); }).join('\n');
+  return `[${S.settings.SITE_TITLE||'Q 아너스'}] ${k.ic} ${p.title} 투표가 열렸어요!` +
+    `\n${p.anonymous?'🙈 익명':'👤 실명'} · ${p.multi?'여러 개 선택 가능':'하나만 선택'}${due}` +
+    (opts ? `\n\n${opts}` : '') + `\n\n👉 투표하기: ${pollLink(p.id)}`;
+}
+function openShare(id, fresh){
+  const p = S.polls.find(x=>x.id===id); if (!p) return;
+  $('#shTitle').textContent = fresh ? '🎉 투표를 만들었어요!' : '🔗 투표 링크 공유';
+  $('#shSub').textContent = fresh ? '아래 링크를 단톡방에 올리면 회원들이 바로 투표할 수 있어요.' : '링크를 누르면 로그인 후 이 투표가 바로 열려요.';
+  $('#shLink').value = pollLink(id);
+  $('#shText').value = shareText(p);
+  $('#shNative').hidden = !navigator.share;
+  $('#shareOv').dataset.id = id;
+  $('#shareOv').hidden = false;
+  setTimeout(()=>$('#shCopyMsg').focus(), 60);
+}
+async function copy(text, label){
+  try { await navigator.clipboard.writeText(text); toast('📋 '+label+'을 복사했어요'); return true; }
+  catch(e){ toast('복사가 막혀 있어요. 길게 눌러 직접 복사해 주세요'); return false; }
+}
+$('#shCopyLink').addEventListener('click', ()=>copy($('#shLink').value, '링크'));
+$('#shCopyMsg').addEventListener('click', ()=>copy($('#shText').value, '안내 문구'));
+$('#shNative').addEventListener('click', async ()=>{
+  const p = S.polls.find(x=>x.id===$('#shareOv').dataset.id);
+  try { await navigator.share({ title: p ? p.title : '투표', text: $('#shText').value }); } catch(e){}
+});
+$('#pvShare').addEventListener('click', ()=>openShare(cur.id, false));
+$('#shareOv').addEventListener('click', e=>{ if (e.target.id==='shareOv') $('#shareOv').hidden=true; });
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#shareOv').hidden){ $('#shareOv').hidden=true; e.stopImmediatePropagation(); } }, true);
+
+/* 링크로 들어왔을 때: 로그인되어 있으면 바로, 아니면 로그인 직후에 엽니다 */
+function pollFromHash(){ const m = /^#poll-([\w-]+)$/.exec(location.hash||''); return m ? m[1] : null; }
+async function openPollFromHash(){
+  const id = pollFromHash(); if (!id || !S.me) return;
+  let p = S.polls.find(x=>x.id===id);
+  if (!p){ const r = await call(()=>Store.polls()); p = r && S.polls.find(x=>x.id===id); }
+  if (!p){ toast('찾을 수 없는 투표예요. 지워졌거나 오래된 링크일 수 있어요'); return; }
+  document.getElementById('polls').scrollIntoView({behavior:'smooth'});
+  openPoll(id);
+}
+window.addEventListener('hashchange', openPollFromHash);
+const _renderPolls = renderPolls;
+let hashDone = false;
+renderPolls = function(){ _renderPolls(); if (!hashDone && S.me && pollFromHash()){ hashDone = true; setTimeout(openPollFromHash, 250); } };
 </script>
 </body>
 </html>
