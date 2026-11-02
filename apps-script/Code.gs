@@ -9,6 +9,7 @@
  *   GET  ?action=data&token=…          → 회원 연락처·참석 응답·회비·장부
  *   POST {action:'rsvp', token, status}
  *   POST {action:'admin', token, pin}  → 관리자 토큰(6시간)
+ *   POST {action:'profile', token, nick, phone, email, pin} → 본인 정보만 수정
  * 관리자 전용
  *   POST {action:'settings', adminToken, changes}
  *   POST {action:'members',  adminToken, list}
@@ -45,6 +46,7 @@ function doPost(e) {
     switch (b.action) {
       case 'rsvp':     return json_(saveRsvp_(memberOfToken_(b.token), b.status));
       case 'admin':    return json_(adminLogin_(memberOfToken_(b.token), b.pin));
+      case 'profile':  return json_(saveProfile_(memberOfToken_(b.token), b));
       case 'settings': requireAdmin_(b.adminToken); return json_(saveSettings_(b.changes || {}));
       case 'members':  requireAdmin_(b.adminToken); return json_(saveMembers_(b.list || []));
       default:         return json_({ ok: false, error: 'unknown action' });
@@ -139,6 +141,25 @@ function adminLogin_(memberId, pin) {
   const token = Utilities.getUuid();
   cache.put('adm:' + token, memberId, ADMIN_TTL);
   return { ok: true, adminToken: token };
+}
+
+function saveProfile_(memberId, b) {
+  const nick = str_(b.nick), email = str_(b.email), pin = str_(b.pin).replace(/\D/g, '');
+  let phone = str_(b.phone).replace(/\D/g, '');
+  if (!nick) throw new Error('닉네임을 입력해 주세요');
+  if (nick.length > 12) throw new Error('닉네임은 12자 이내로 입력해 주세요');
+  if (phone && !/^01\d{8,9}$/.test(phone)) throw new Error('휴대폰 번호를 확인해 주세요');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('메일 주소를 확인해 주세요');
+  if (pin && pin.length !== 4) throw new Error('PIN은 숫자 4자리로 입력해 주세요');
+  const sh = sheet_('Members'), data = sh.getDataRange().getValues(), head = data[0].map(String);
+  const col = n => head.indexOf(n);
+  const i = data.findIndex((r, n) => n > 0 && str_(r[col('id')]) === memberId);
+  if (i < 1) throw new Error('회원을 찾지 못했어요');
+  sh.getRange(i + 1, col('nick') + 1).setValue(nick);
+  sh.getRange(i + 1, col('phone') + 1).setValue(phone ? "'" + phone_(phone) : '');
+  sh.getRange(i + 1, col('email') + 1).setValue(email);
+  if (pin && col('pin') >= 0) sh.getRange(i + 1, col('pin') + 1).setValue("'" + pin);
+  return { ok: true, member: { id: memberId, nick: nick, phone: phone ? phone_(phone) : '', email: email } };
 }
 
 /* ---------- 관리자 전용 ---------- */

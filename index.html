@@ -293,6 +293,19 @@ h2 .balls i{width:16px;height:16px}
 .btn.back{margin-top:14px;height:42px}
 body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 
+
+.pf-card{text-align:left}
+.pf-card .av,.pf-card h3,.pf-card>p{text-align:center}
+.pf-card h3{margin-top:10px}
+.pf-card label{display:block;margin-top:12px;font-size:13px;font-weight:700;color:var(--muted)}
+.pf-card input{display:block;width:100%;height:46px;margin-top:5px;padding:0 14px;border:0;border-radius:14px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);font:inherit;font-size:16px;font-weight:650;color:var(--ink);outline:none;transition:box-shadow .2s}
+.pf-card input:focus{box-shadow:inset 0 0 0 2px var(--primary),0 0 0 4px var(--ux-accent-soft)}
+.pf-pin{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pf-note{margin:12px 0 0!important;font-size:12.5px!important;line-height:1.55;color:var(--muted)}
+.pf-err{min-height:20px;margin:8px 0 0!important;font-size:13px!important;font-weight:700;color:var(--ux-danger)!important}
+.pf-save{width:100%;justify-content:center;margin-top:4px}
+.pf-save:disabled{opacity:.6;cursor:wait}
+
 /* Lucian roots: let fixed-size elements shrink on narrow screens */
 .u059,.u039{max-width:100%}
 .u044{width:100%!important;height:auto!important}
@@ -337,6 +350,7 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <div class="who">
       <button class="who-btn" type="button" id="whoBtn" aria-haspopup="menu" aria-expanded="false"><span class="av sm" id="whoAv">?</span><span id="whoName">로그인</span><span class="adm-badge" id="admBadge" hidden>관리자</span><span class="caret" aria-hidden="true">▾</span></button>
       <div class="who-menu" id="whoMenu" role="menu" hidden>
+        <button type="button" role="menuitem" id="mProfile">✏️ 내 정보 수정</button>
         <button type="button" role="menuitem" id="mSwitch">🔄 다른 회원으로 로그인</button>
         <button type="button" role="menuitem" id="mAdmin">🔐 관리자 로그인</button>
         <button type="button" role="menuitem" id="mEdit" hidden>⚙️ 사이트 설정 편집</button>
@@ -1024,6 +1038,24 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
     <p class="ct-hint" id="ctHint">📱 휴대폰에서 누르면 바로 전화·문자 앱이 열립니다.</p>
   </div>
 </div>
+<!-- 내 정보 수정 -->
+<div class="overlay sheet" id="profileOv" role="dialog" aria-modal="true" aria-labelledby="pfTitle" hidden>
+  <form class="ct-card pf-card" id="profileForm" novalidate>
+    <button class="x-btn" type="button" data-close="profileOv" aria-label="닫기">✕</button>
+    <span class="av" id="pfAv"></span>
+    <h3 id="pfTitle">✏️ 내 정보 수정</h3><p id="pfName"></p>
+    <label>닉네임<input name="nick" maxlength="12" autocomplete="nickname" required></label>
+    <label>휴대폰<input name="phone" inputmode="tel" autocomplete="tel" placeholder="숫자만 입력하세요 (예: 01012345678)"></label>
+    <label>메일<input name="email" type="email" inputmode="email" autocomplete="email" placeholder="선택 입력"></label>
+    <div class="pf-pin">
+      <label>새 PIN<input name="pin" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="바꿀 때만"></label>
+      <label>새 PIN 확인<input name="pin2" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="한 번 더"></label>
+    </div>
+    <p class="pf-note">PIN을 따로 정하지 않았다면 <b>휴대폰 번호 뒷자리 4자리</b>가 PIN입니다. 번호를 바꾸면 PIN도 함께 바뀌어요.</p>
+    <p class="pf-err" id="pfErr" role="alert"></p>
+    <button class="btn p pf-save" id="pfSave" type="submit">저장</button>
+  </form>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1034,7 +1066,7 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
      Settings · Members · RSVP 시트를 읽고 쓰도록 바꿀 자리입니다.
      지금은 시안이라 기본값 + 이 브라우저 저장소로 동작합니다.
    ============================================================ */
-const CONFIG = { SHEET_API: '' }; // 예: https://script.google.com/macros/s/XXXX/exec
+const CONFIG = { SHEET_API: 'https://script.google.com/macros/s/AKfycbxAu9PHpv_r4lsAvBw5-ay6MXHEFJzUAidNAbTR2AwQzjYHP6-NuTjZ-wwGTOakMwt0WQ/exec' }; // 예: https://script.google.com/macros/s/XXXX/exec
 
 /* Settings 시트 모양: key | value | group | label | help */
 const DEFAULT_SETTINGS = [
@@ -1109,6 +1141,13 @@ const Store = {
     if (!DEMO){ const r = await api.post({action:'admin', token:S.token, pin}); if (r.ok) S.adminToken = r.adminToken; else if (r.error) S.lastError = r.error; return !!r.ok; }
     return pin === '112233';
   },
+  async saveProfile(p){
+    if (!DEMO) return api.post(Object.assign({action:'profile', token:S.token}, p));
+    const ms = local.get('members') || DEFAULT_MEMBERS.map(m=>Object.assign({},m));
+    const m = ms.find(x=>x.id===S.me.id); if(!m) return {ok:false,error:'회원을 찾지 못했어요'};
+    m.nick=p.nick; m.phone=p.phone; m.email=p.email; if (p.pin) m.pin=p.pin;
+    local.set('members', ms); return {ok:true, member:{id:m.id,nick:m.nick,phone:m.phone,email:m.email}};
+  },
   async saveSettings(changes){
     if (!DEMO) return api.post({action:'settings', adminToken:S.adminToken, changes});
     local.set('settings', Object.assign(local.get('settings')||{}, changes)); return {ok:true};
@@ -1129,6 +1168,13 @@ const act = () => S.members.filter(m=>m.active!==false);
 const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const digits = s => String(s||'').replace(/\D/g,'');
 const fmtPhone = s => { const d=digits(s); return d.length===11 ? d.replace(/(\d{3})(\d{4})(\d{4})/,'$1-$2-$3') : d.length===10 ? d.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3') : s; };
+/* 숫자만 넣어도 010-1234-5678 형식으로 바꿉니다(입력하는 동안 계속) */
+const typePhone = s => { const d=digits(s).slice(0,11);
+  if (d.length<4) return d;
+  if (d.length<8) return d.slice(0,3)+'-'+d.slice(3);
+  if (d.length===10 && !/^010/.test(d)) return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);
+  return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7); };
+function bindPhone(el){ const atEnd = el.selectionStart===el.value.length; const v=typePhone(el.value); if (v!==el.value){ el.value=v; if(atEnd) el.setSelectionRange(v.length,v.length); } }
 const isTouch = () => matchMedia('(pointer:coarse)').matches;
 const ini = m => !m.nick ? (m.name||'?')[0] : m.nick.length<=2 && /^[A-Za-z]+$/.test(m.nick) ? m.nick : m.nick[0];
 let toastT; function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('on'),2200); }
@@ -1269,6 +1315,7 @@ function menu(open){ whoMenu.hidden=!open; whoBtn.setAttribute('aria-expanded',o
 whoBtn.addEventListener('click', e=>{ e.stopPropagation(); if(!S.me){ openLogin(); return; } menu(whoMenu.hidden); });
 document.addEventListener('click', e=>{ if(!whoMenu.hidden && !whoMenu.contains(e.target)) menu(false); });
 $('#mSwitch').onclick=()=>{ menu(false); logout(); };
+$('#mProfile').onclick=()=>{ menu(false); openProfile(); };
 $('#mLogout').onclick=()=>{ menu(false); logout(); };
 $('#mAdmin').onclick=()=>{ menu(false); openPin(); };
 $('#mEdit').onclick=()=>{ menu(false); openAdmin(); };
@@ -1320,7 +1367,7 @@ function drawForm(){
 }
 fm.addEventListener('input', e=>{
   const el=e.target;
-  if (el.dataset.f){ const m=nowM.find(x=>x.id===el.dataset.id); m[el.dataset.f]=el.value; diff(); return; }
+  if (el.dataset.f){ if (el.dataset.f==='phone') bindPhone(el); if (el.dataset.f==='pin') el.value=digits(el.value).slice(0,4); const m=nowM.find(x=>x.id===el.dataset.id); m[el.dataset.f]=el.value; diff(); return; }
   const k=el.dataset.k; if(!k) return; now[k]=el.value; diff();
 });
 fm.addEventListener('focusout', e=>{ const el=e.target; if(el.dataset&&el.dataset.f==='phone'){ const m=nowM.find(x=>x.id===el.dataset.id); m.phone=el.value=fmtPhone(el.value); diff(); } });
@@ -1428,6 +1475,43 @@ $('#ctInfo').addEventListener('click', async e=>{
 });
 $('#contactOv').addEventListener('click', e=>{ if(e.target.id==='contactOv') $('#contactOv').hidden=true; });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#contactOv').hidden) $('#contactOv').hidden=true; });
+
+/* ── 내 정보 수정 (본인만) ── */
+const pf = $('#profileForm');
+function openProfile(){
+  if (!S.me) { openLogin(); return; }
+  const m = S.me;
+  $('#pfAv').textContent = ini(m); $('#pfAv').style.setProperty('--g', grad(m.id));
+  $('#pfName').textContent = m.name + (m.role ? ' · '+m.role : '');
+  pf.nick.value = m.nick||''; pf.phone.value = typePhone(m.phone||''); pf.email.value = m.email||''; pf.pin.value = ''; pf.pin2.value = '';
+  $('#pfErr').textContent = '';
+  $('#profileOv').hidden = false;
+  setTimeout(()=>pf.nick.focus(), 60);
+}
+pf.phone.addEventListener('input', ()=>bindPhone(pf.phone));
+[pf.pin, pf.pin2].forEach(el=>el.addEventListener('input', ()=>{ el.value = digits(el.value).slice(0,4); }));
+pf.addEventListener('submit', async e=>{
+  e.preventDefault();
+  const err = $('#pfErr'), btn = $('#pfSave');
+  const v = { nick: pf.nick.value.trim(), phone: pf.phone.value.trim(), email: pf.email.value.trim(), pin: pf.pin.value };
+  const d = digits(v.phone);
+  if (!v.nick) return err.textContent = '닉네임을 입력해 주세요';
+  if (d && !/^01\d{8,9}$/.test(d)) return err.textContent = '휴대폰 번호를 확인해 주세요';
+  if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) return err.textContent = '메일 주소를 확인해 주세요';
+  if (v.pin && v.pin.length!==4) return err.textContent = '새 PIN은 숫자 4자리로 입력해 주세요';
+  if (v.pin !== pf.pin2.value) return err.textContent = '새 PIN이 서로 달라요';
+  err.textContent = ''; btn.disabled = true; btn.textContent = '저장 중…';
+  let r; try { r = await Store.saveProfile(v); } catch(x){ r = {ok:false, error:'연결이 불안정해요'}; }
+  btn.disabled = false; btn.textContent = '저장';
+  if (!r.ok){ if (!authFail(r)) err.textContent = r.error || '저장하지 못했어요'; return; }
+  const m = memberOf(S.me.id); Object.assign(m, r.member || {nick:v.nick, phone:v.phone, email:v.email});
+  S.me = m; const ro = S.roster.find(x=>x.id===m.id); if (ro) ro.nick = m.nick;
+  renderMembers(); renderWho(); syncCard();
+  $('#profileOv').hidden = true;
+  toast(v.pin ? '✅ 저장했어요 · 다음 로그인부터 새 PIN을 써 주세요' : '✅ 내 정보를 저장했어요');
+});
+$('#profileOv').addEventListener('click', e=>{ if (e.target.id==='profileOv') $('#profileOv').hidden=true; });
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#profileOv').hidden) $('#profileOv').hidden=true; });
 </script>
 </body>
 </html>
