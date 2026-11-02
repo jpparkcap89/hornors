@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Q 아너스 · Q Honors</title>
 <meta name="description" content="비전 당구클럽에서 만난 좋은 사람들의 친목 모임, Q 아너스">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='64' r='22' fill='%23e5484d'/%3E%3Ccircle cx='70' cy='64' r='22' fill='%23f5c518'/%3E%3Ccircle cx='50' cy='30' r='22' fill='%23fff' stroke='%23c7cfdb' stroke-width='3'/%3E%3C/svg%3E">">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap">
 <style>
@@ -274,6 +274,25 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 .mrow-g label{margin:0!important;font-size:10.5px!important}
 .m-add{width:100%;height:44px;margin-top:12px;border:1.5px dashed var(--ux-line-2);border-radius:13px;background:none;font:inherit;font-size:13px;font-weight:800;color:var(--primary);cursor:pointer}
 
+
+/* 3쿠션 공 아이콘 (빨강 · 노랑 · 흰 공) */
+.balls{display:inline-flex;align-items:center;gap:2px;vertical-align:-2px;margin-right:6px}
+.balls i{width:12px;height:12px;border-radius:50%;box-shadow:inset -2px -2px 3px rgba(0,0,0,.18),inset 2px 2px 3px rgba(255,255,255,.55)}
+.balls .r{background:#e5484d}.balls .y{background:#f5c518}.balls .w{background:#fff;box-shadow:inset -2px -2px 3px rgba(0,0,0,.14),0 0 0 1px rgba(36,50,74,.15)}
+.balls.lg{gap:4px;margin:0}
+.balls.lg i{width:26px;height:26px}
+.balls.lg .w{transform:translateY(-10px)}
+h2 .balls i{width:16px;height:16px}
+.eyebrow .balls{margin-right:2px}
+#loginPinStep .av{width:64px;height:64px;margin:0 auto;font-size:24px}
+#loginPinStep h2{font-size:21px;margin:12px 0 0}
+#loginPinStep .u026{height:auto;padding:4px 0 0;margin:0 auto}
+#loginPinStep .u026-ic,#loginPinStep .u026-t{display:none}
+#loginPinStep .u026-s{margin-top:4px}
+.login-note.demo{color:#b45309!important}
+.btn.back{margin-top:14px;height:42px}
+body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
+
 /* Lucian roots: let fixed-size elements shrink on narrow screens */
 .u059,.u039{max-width:100%}
 .u044{width:100%!important;height:auto!important}
@@ -332,7 +351,7 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 <section class="hero" id="home">
   <div class="wrap">
     <div class="reveal">
-      <span class="eyebrow" data-s="HERO_EYEBROW">🎱 비전 당구클럽에서 시작된 모임</span>
+      <span class="eyebrow"><span class="balls" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="w"></i></span><span data-s="HERO_EYEBROW">비전 당구클럽에서 시작된 모임</span></span>
       <h1><span data-s="HERO_LINE1">큐(Q)로 맺은 인연,</span><br><span class="grad" data-s="HERO_LINE2">품격 있게 오래오래</span></h1>
       <p class="lead">Q 아너스는 <strong>비전 당구클럽에서 만난 좋은 사람들</strong>이 모여 친목을 다지는 모임입니다. 당구 한 게임, 식사 한 끼에 <strong>서로의 안부를 나눕니다.</strong></p>
       <div class="cta">
@@ -495,7 +514,7 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   <div class="wrap">
     <div class="sec-head"><div class="kicker">ABOUT</div><h2>✨ 우리가 함께하는 것</h2><p>거창하지 않아도 꾸준히, 즐겁게 이어 가는 것이 목표입니다.</p></div>
     <div class="feat">
-      <div class="fc"><div class="ic">🎱</div><h3>함께 치는 당구</h3><p>비전 구장에서 <strong>팀전 5:5</strong>로 한 판. 승패보다 웃음이 더 많습니다.</p></div>
+      <div class="fc"><div class="ic"><span class="balls lg" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="w"></i></span></div><h3>함께 치는 3쿠션</h3><p>비전 구장에서 <strong>3쿠션 팀전 5:5</strong>로 한 판. 승패보다 웃음이 더 많습니다.</p></div>
       <div class="fc"><div class="ic">🍽️</div><h3>정기 식사 모임</h3><p><strong>두 달에 한 번</strong> 맛있는 식사와 함께 근황을 나누고 안건을 정합니다.</p></div>
       <div class="fc"><div class="ic">🖼️</div><h3>모닝 갤러리</h3><p>아침마다 올라오는 <strong>신문 브리핑과 명화 이야기</strong>로 하루를 엽니다.</p></div>
       <div class="fc"><div class="ic">🏆</div><h3>연말 당구대회</h3><p>명색이 비전에서 시작한 모임, <strong>연말엔 대회</strong>로 한 해를 마무리합니다.</p><a href="https://vision.cap89.com" target="_blank" rel="noopener">대회 페이지 →</a></div>
@@ -741,10 +760,86 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   <div class="login-card">
     <div id="loginPick">
       <span class="mark">Q</span>
-      <h2 id="loginTitle">🎱 어서 오세요! 누구신가요?</h2>
-      <p>이름을 고르면 <strong>참석 · 미정 · 불참</strong> 응답이 내 이름으로 기록됩니다.</p>
+      <h2 id="loginTitle"><span class="balls" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="w"></i></span> 어서 오세요! 누구신가요?</h2>
+      <p>이름을 고르고 <strong>PIN 4자리</strong>를 입력하면 들어갈 수 있어요.</p>
       <div class="picks" id="picks"></div>
-      <p class="login-note">이 기기에서는 다음부터 자동으로 로그인됩니다.</p>
+      <p class="login-note">한 번 로그인하면 이 기기에서는 90일 동안 유지됩니다.</p>
+    </div>
+    <div id="loginPinStep" hidden>
+      <span class="av" id="pinAv"></span>
+      <h2><span id="pinWho"></span>, PIN을 입력해 주세요</h2>
+<!-- Lucian UX/UI Prompt #026 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#026 -->
+<div class="ux u026">
+  <span class="u026-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="3"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></span>
+  <p class="u026-t">관리자 확인</p>
+  <p class="u026-s"><b>회원 PIN</b> 4자리</p>
+  <div class="u026-row">
+    <span class="u026-c" style="--i:0"></span><span class="u026-c" style="--i:1"></span><span class="u026-c" style="--i:2"></span><span class="u026-c" style="--i:3"></span>
+    <input class="u026-real" type="text" inputmode="numeric" autocomplete="off" maxlength="4" aria-label="회원 PIN 4자리">
+  </div>
+  <p class="u026-msg">&nbsp;</p>
+  <span class="u026-live" aria-live="polite"></span>
+</div>
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  var input = root.querySelector('.u026-real');
+  var cells = Array.prototype.slice.call(root.querySelectorAll('.u026-c'));
+  var msg = root.querySelector('.u026-msg');
+  var live = root.querySelector('.u026-live');
+  function say(t) { msg.textContent = t; live.textContent = t; }
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CODE = '482915', prev = '', timers = [], left = 179, tick = 0;
+  function later(fn, ms) { timers.push(setTimeout(function () { if (root.isConnected) fn(); }, ms)); }
+  // 보이지 않는 입력칸 하나가 키보드·붙여넣기·자동완성을 모두 받고, 화면의 여섯 칸은 그 값을 그립니다
+  function paint() {
+    var v = input.value;
+    cells.forEach(function (c, i) {
+      var ch = v[i] || '';
+      if (ch !== (prev[i] || '')) c.innerHTML = ch ? '<span>' + ch + '</span>' : '';
+      c.classList.toggle('has', !!ch);
+      c.classList.toggle('cur', document.activeElement === input && (i === Math.min(v.length, cells.length - 1)));
+    });
+    prev = v;
+  }
+  function verify() {
+    root.classList.add('is-check');
+    say('확인하는 중');
+    var check = Promise.resolve(root.qCheck ? root.qCheck(input.value) : input.value === CODE);
+    later(function () { check.then(function (ok) {
+      root.classList.remove('is-check');
+      if (ok) {
+        root.classList.add('is-ok');
+        say('확인됐어요');
+        if (root.qOnOk) root.qOnOk();
+        input.blur();
+        clearInterval(tick);
+      } else {
+        root.classList.add('is-bad');
+        say(root.qFail || 'PIN이 맞지 않아요. 다시 입력해 주세요'); root.qFail = null;
+        later(function () { root.classList.remove('is-bad'); input.value = ''; paint(); input.focus(); }, rm ? 600 : 900);
+      }
+    }); }, rm ? 60 : 640);
+  }
+  input.addEventListener('input', function () {
+    input.value = input.value.replace(/\D/g, '').slice(0, cells.length);
+    if (root.classList.contains('is-ok')) root.classList.remove('is-ok');
+    paint();
+    if (input.value.length === cells.length) verify();
+  });
+  input.addEventListener('focus', paint);
+  input.addEventListener('blur', paint);
+  // 다시 열 때 처음 상태로 되돌립니다
+  root.qReset = function () {
+    root.classList.remove('is-ok', 'is-bad', 'is-check'); input.value = ''; prev = 'xxxxxx'; paint();
+    msg.textContent = '\u00a0';
+  };
+  paint();
+})();
+</script>
+      <p class="login-note">PIN을 모르면 <b>휴대폰 번호 뒷자리 4자리</b>를 넣어 보세요. 그래도 안 되면 총무님께 문의해 주세요.</p>
+      <p class="login-note demo" id="demoHint" hidden>시안 모드 PIN: 전화번호 뒷자리 (예: JP → 0006)</p>
+      <button type="button" class="btn s back" id="pinBack">← 다른 사람이에요</button>
     </div>
     <div class="welcome" id="loginWelcome" hidden>
       <span class="av" id="welAv"></span>
@@ -821,7 +916,7 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
       var ch = v[i] || '';
       if (ch !== (prev[i] || '')) c.innerHTML = ch ? '<span>' + ch + '</span>' : '';
       c.classList.toggle('has', !!ch);
-      c.classList.toggle('cur', document.activeElement === input && (i === Math.min(v.length, 5)));
+      c.classList.toggle('cur', document.activeElement === input && (i === Math.min(v.length, cells.length - 1)));
     });
     prev = v;
   }
@@ -839,16 +934,16 @@ button.mem:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
         clearInterval(tick);
       } else {
         root.classList.add('is-bad');
-        say('PIN이 맞지 않아요. 다시 입력해 주세요');
+        say(root.qFail || 'PIN이 맞지 않아요. 다시 입력해 주세요'); root.qFail = null;
         later(function () { root.classList.remove('is-bad'); input.value = ''; paint(); input.focus(); }, rm ? 600 : 900);
       }
     }); }, rm ? 60 : 640);
   }
   input.addEventListener('input', function () {
-    input.value = input.value.replace(/\D/g, '').slice(0, 6);
+    input.value = input.value.replace(/\D/g, '').slice(0, cells.length);
     if (root.classList.contains('is-ok')) root.classList.remove('is-ok');
     paint();
-    if (input.value.length === 6) verify();
+    if (input.value.length === cells.length) verify();
   });
   input.addEventListener('focus', paint);
   input.addEventListener('blur', paint);
@@ -944,7 +1039,7 @@ const CONFIG = { SHEET_API: '' }; // 예: https://script.google.com/macros/s/XXX
 /* Settings 시트 모양: key | value | group | label | help */
 const DEFAULT_SETTINGS = [
   ['SITE_TITLE','Q 아너스','사이트','모임 이름',''],
-  ['HERO_EYEBROW','🎱 비전 당구클럽에서 시작된 모임','사이트','첫 화면 머리말',''],
+  ['HERO_EYEBROW','비전 당구클럽에서 시작된 모임','사이트','첫 화면 머리말',''],
   ['HERO_LINE1','큐(Q)로 맺은 인연,','사이트','제목 첫 줄',''],
   ['HERO_LINE2','품격 있게 오래오래','사이트','제목 둘째 줄','그라데이션으로 강조되는 줄'],
   ['FOOTER_SLOGAN','비전에서 시작된 좋은 인연, 품격 있게 오래오래','사이트','바닥글 한 줄',''],
@@ -972,29 +1067,62 @@ const DEFAULT_MEMBERS = [
 /* RSVP 시트: meetingId | memberId | status(yes/maybe/no) | at — 시안용 예시 응답 */
 const SAMPLE_RSVP = {m01:'yes',m03:'yes',m04:'yes',m07:'yes',m08:'yes',m09:'yes',m10:'yes',m02:'maybe',m05:'no'};
 const GRAD = ['#8B6CFF,#5B8CFF','#22C3A6,#0EA5E9','#FF7A93,#B04FD0','#FFD08A,#D2702A','#3b63f6,#38bdf8','#FFB547,#FF6B8B','#2bb39a,#7fd8c9','#5B8CFF,#B04FD0','#f59e0b,#ff9fb5','#0EA5E9,#3b63f6','#FF8A65,#FFC24B'];
-const PAID = ['m01','m03','m04','m07','m08','m10']; // 예시 (memberId)
+const PAID = ['m01','m03','m04','m07','m08','m10']; // 시안용 예시 (memberId)
 const ST = ['yes','maybe','no'];
 
 const local = {
   get(k){ try{ return JSON.parse(localStorage.getItem('qh.'+k)); }catch(e){ return null; } },
   set(k,v){ try{ localStorage.setItem('qh.'+k, JSON.stringify(v)); }catch(e){} }
 };
+const DEMO = !CONFIG.SHEET_API;   // 주소가 비어 있으면 시안 모드(예시 데이터 · 이 브라우저에만 저장)
+const api = {
+  async get(params){ const r = await fetch(CONFIG.SHEET_API+'?'+new URLSearchParams(params)); return r.json(); },
+  async post(body){ const r = await fetch(CONFIG.SHEET_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}); return r.json(); }
+};
+const demoPin = m => (m.pin || digits(m.phone).slice(-4));
 const Store = {
-  async load(){
-    if (CONFIG.SHEET_API) { /* 백엔드 연결 후: const r = await fetch(CONFIG.SHEET_API+'?action=bootstrap'); return r.json(); */ }
+  /* 로그인 전: 사이트 문구 + 이름 목록 */
+  async boot(){
+    if (!DEMO){ const r = await api.get({action:'boot'}); if(!r.ok) throw new Error(r.error); local.set('boot', r); return r; }
     const settings = {}; DEFAULT_SETTINGS.forEach(r=>settings[r[0]]=r[1]);
     Object.assign(settings, local.get('settings')||{});
-    const members = local.get('members') || DEFAULT_MEMBERS;
-    return { settings, members, rsvp: Object.assign({}, SAMPLE_RSVP, local.get('rsvp')||{}) };
+    const ms = local.get('members') || DEFAULT_MEMBERS;
+    return { ok:true, settings, roster: ms.filter(m=>m.active!==false).map(m=>({id:m.id,name:m.name,nick:m.nick,role:m.role})) };
   },
-  async saveRsvp(id, status){ /* 백엔드: POST {action:'rsvp', memberId, status} */ const all = local.get('rsvp')||{}; all[id]=status; local.set('rsvp', all); },
-  async saveMembers(list){ /* 백엔드: POST {action:'members', token, list} → Members 시트 갱신 */ local.set('members', list); },
-  async verifyAdmin(pin){ /* 백엔드: POST {action:'admin', pin} → 서버가 Settings!ADMIN_PIN과 비교해 토큰 발급 */ return pin === '112233'; },
-  async saveSettings(changes){ /* 백엔드: POST {action:'settings', token, changes} */ local.set('settings', Object.assign(local.get('settings')||{}, changes)); }
+  async login(id, pin){
+    if (!DEMO) return api.post({action:'login', memberId:id, pin});
+    await new Promise(r=>setTimeout(r,300));
+    const m = (local.get('members')||DEFAULT_MEMBERS).find(x=>x.id===id);
+    return m && demoPin(m)===pin ? {ok:true, token:'demo-'+id, memberId:id} : {ok:false, error:'PIN이 맞지 않아요'};
+  },
+  /* 로그인 후: 연락처 · 응답 · 회비 · 장부 */
+  async data(){
+    if (!DEMO) return api.get({action:'data', token:S.token});
+    const members = (local.get('members') || DEFAULT_MEMBERS).map(m=>{ const o=Object.assign({},m); delete o.pin; return o; });
+    return { ok:true, me:String(S.token).replace('demo-',''), members, rsvp:Object.assign({}, SAMPLE_RSVP, local.get('rsvp')||{}), paid:PAID };
+  },
+  async saveRsvp(status){
+    if (!DEMO) return api.post({action:'rsvp', token:S.token, status});
+    const all = local.get('rsvp')||{}; all[S.me.id]=status; local.set('rsvp', all); return {ok:true};
+  },
+  async verifyAdmin(pin){
+    if (!DEMO){ const r = await api.post({action:'admin', token:S.token, pin}); if (r.ok) S.adminToken = r.adminToken; else if (r.error) S.lastError = r.error; return !!r.ok; }
+    return pin === '112233';
+  },
+  async saveSettings(changes){
+    if (!DEMO) return api.post({action:'settings', adminToken:S.adminToken, changes});
+    local.set('settings', Object.assign(local.get('settings')||{}, changes)); return {ok:true};
+  },
+  async saveMembers(list){
+    if (!DEMO) return api.post({action:'members', adminToken:S.adminToken, list});
+    const old = local.get('members') || DEFAULT_MEMBERS;
+    local.set('members', list.map(m=>{ const o=old.find(x=>x.id===m.id)||{}; const n=Object.assign({},m); n.pin = m.pin && m.pin.length===4 ? m.pin : (o.pin||''); return n; }));
+    return {ok:true};
+  }
 };
 
 const $ = s => document.querySelector(s);
-const S = { settings:{}, members:[], rsvp:{}, me:null, admin:false };
+const S = { settings:{}, roster:[], members:[], rsvp:{}, paid:[], me:null, admin:false, token:null, adminToken:null };
 const grad = id => { const n = parseInt(String(id).replace(/\D/g,''),10)||1; return 'linear-gradient(140deg,'+GRAD[(n-1)%GRAD.length]+')'; };
 const memberOf = k => S.members.find(m=>m.id===k) || S.members.find(m=>m.name===k);
 const act = () => S.members.filter(m=>m.active!==false);
@@ -1021,10 +1149,10 @@ function applySettings(){
 
 /* ── 회원·회비 ── */
 function renderMembers(){
-  const A = act(), paid = A.filter(m=>PAID.includes(m.id)).length;
+  const A = act(), paid = A.filter(m=>S.paid.includes(m.id)).length;
   $('#statMembers').textContent = A.length+'명';
   $('#memberList').innerHTML = A.map(m=>`<button class="mem" type="button" data-id="${m.id}" aria-label="${esc(m.nick)} 연락하기"><span class="av" style="--g:${grad(m.id)}">${esc(ini(m))}</span><span><b>${esc(m.nick)}${m.role?`<span class="role">${esc(m.role)}</span>`:''}</b><small>${esc(m.name)}</small></span><span class="mem-ic" aria-hidden="true">${m.phone?'📞':''}${m.email?'✉️':''}</span></button>`).join('');
-  $('#duesChips').innerHTML = A.map(m=>`<span class="chip ${PAID.includes(m.id)?'ok':''}">${esc(m.nick)}</span>`).join('');
+  $('#duesChips').innerHTML = A.map(m=>`<span class="chip ${S.paid.includes(m.id)?'ok':''}">${esc(m.nick)}</span>`).join('');
   $('#duesTxt').textContent = paid+' / '+A.length+'명 납부';
   setTimeout(()=>{ const b=$('#duesBar'); b.style.transition='width .9s cubic-bezier(.2,.8,.2,1)'; b.style.width=(paid/Math.max(A.length,1)*100)+'%'; },300);
   const mails = A.filter(m=>m.email).map(m=>m.email);
@@ -1042,9 +1170,11 @@ card.qCalc = function(i){
 };
 card.qOnPick = async function(i){
   if (!S.me){ openLogin(); return; }
+  const before = S.rsvp[S.me.id];
   S.rsvp[S.me.id] = ST[i];
   renderRsvp();
-  await Store.saveRsvp(S.me.id, ST[i]);
+  let r; try { r = await Store.saveRsvp(ST[i]); } catch(e){ r = {ok:false, error:'연결이 불안정해요'}; }
+  if (!r || !r.ok){ S.rsvp[S.me.id] = before; syncCard(); return authFail(r) || toast('⚠️ 저장하지 못했어요: '+((r&&r.error)||'')); }
   toast(['🙌 참석으로 기록했어요','🤔 미정으로 기록했어요','🙏 불참으로 기록했어요'][i]);
 };
 function renderRsvp(){
@@ -1067,29 +1197,65 @@ function syncCard(){
   renderRsvp();
 }
 
-/* ── 회원 로그인 ── */
+/* ── 회원 로그인: 이름 선택 → PIN 4자리(#026) → 서버 확인 ── */
+let picked = null;
+const lpin = document.querySelector('#loginPinStep .u026');
 function openLogin(){
-  $('#loginPick').hidden=false; $('#loginWelcome').hidden=true;
-  $('#picks').innerHTML = act().map(m=>`<button class="pick" type="button" data-id="${m.id}"><span class="av" style="--g:${grad(m.id)}">${esc(ini(m))}</span><span><b>${esc(m.nick)}</b><small>${esc(m.name)}</small></span></button>`).join('');
+  picked = null;
+  $('#loginPick').hidden=false; $('#loginPinStep').hidden=true; $('#loginWelcome').hidden=true;
+  $('#picks').innerHTML = S.roster.map(m=>`<button class="pick" type="button" data-id="${m.id}"><span class="av" style="--g:${grad(m.id)}">${esc(ini(m))}</span><span><b>${esc(m.nick)}</b><small>${esc(m.name)}</small></span></button>`).join('')
+    || '<p class="ct-empty">회원 목록을 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</p>';
+  $('#demoHint').hidden = !DEMO;
   $('#loginOv').hidden=false;
-  setTimeout(()=>$('#picks .pick').focus(),50);
+  setTimeout(()=>{ const f=$('#picks .pick'); f && f.focus(); },50);
 }
 $('#picks').addEventListener('click', e=>{
   const b = e.target.closest('.pick'); if(!b) return;
-  const m = memberOf(b.dataset.id);
+  picked = S.roster.find(m=>m.id===b.dataset.id);
   b.classList.add('chosen');
   setTimeout(()=>{
-    $('#loginPick').hidden=true; $('#loginWelcome').hidden=false;
-    const av=$('#welAv'); av.textContent=ini(m); av.style.setProperty('--g',grad(m.id));
-    $('#welTitle').textContent = m.nick+'님, 반가워요! 👋';
-    setTimeout(()=>{ login(m); $('#loginOv').hidden=true; },1100);
-  },260);
+    $('#loginPick').hidden=true; $('#loginPinStep').hidden=false;
+    const av=$('#pinAv'); av.textContent=ini(picked); av.style.setProperty('--g',grad(picked.id));
+    $('#pinWho').textContent = picked.nick+'님';
+    lpin.qReset(); setTimeout(()=>lpin.querySelector('.u026-real').focus(),60);
+  },220);
 });
-function login(m){
-  S.me = m; local.set('user', m.id);
-  renderWho(); syncCard();
+$('#pinBack').addEventListener('click', openLogin);
+lpin.qCheck = async v => {
+  let r; try { r = await Store.login(picked.id, v); } catch(e){ r = {ok:false, error:'연결이 불안정해요'}; }
+  if (r.ok){ S.token = r.token; local.set('token', r.token); local.set('user', picked.id); }
+  else lpin.qFail = r.error || 'PIN이 맞지 않아요';
+  return !!r.ok;
+};
+lpin.qOnOk = ()=>{
+  setTimeout(async ()=>{
+    $('#loginPinStep').hidden=true; $('#loginWelcome').hidden=false;
+    const av=$('#welAv'); av.textContent=ini(picked); av.style.setProperty('--g',grad(picked.id));
+    $('#welTitle').textContent = picked.nick+'님, 반가워요! 👋';
+    const ok = await loadData();
+    setTimeout(()=>{ if (ok) $('#loginOv').hidden=true; }, 700);
+  },500);
+};
+async function loadData(){
+  let r; try { r = await Store.data(); } catch(e){ r = {ok:false, error:'연결이 불안정해요'}; }
+  if (!r.ok){ if (!authFail(r)) toast('⚠️ '+(r.error||'불러오지 못했어요')); return false; }
+  S.members = r.members||[]; S.rsvp = r.rsvp||{}; S.paid = r.paid||[];
+  if (r.settings){ Object.assign(S.settings, r.settings); applySettings(); }
+  S.me = memberOf(r.me || local.get('user')) || null;
+  document.body.classList.remove('locked');
+  renderMembers(); renderWho(); syncCard();
+  return true;
 }
-function logout(){ S.me=null; S.admin=false; local.set('user', null); renderWho(); syncCard(); openLogin(); }
+function authFail(r){
+  if (!r || r.code!=='auth') { if (r && r.code==='admin'){ S.admin=false; S.adminToken=null; renderWho(); toast('관리자 시간이 끝났어요. 다시 로그인해 주세요'); return true; } return false; }
+  toast('다시 로그인해 주세요'); logout(); return true;
+}
+function logout(){
+  S.me=null; S.admin=false; S.token=null; S.adminToken=null; S.members=[]; S.rsvp={}; S.paid=[];
+  local.set('user', null); local.set('token', null);
+  document.body.classList.add('locked');
+  renderMembers(); renderWho(); syncCard(); openLogin();
+}
 function renderWho(){
   const av=$('#whoAv');
   if (S.me){ av.textContent=ini(S.me); av.style.setProperty('--g',grad(S.me.id)); $('#whoName').textContent=S.me.nick+'님'; }
@@ -1102,15 +1268,15 @@ const whoBtn=$('#whoBtn'), whoMenu=$('#whoMenu');
 function menu(open){ whoMenu.hidden=!open; whoBtn.setAttribute('aria-expanded',open); if(open) whoMenu.querySelector('button:not([hidden])').focus(); }
 whoBtn.addEventListener('click', e=>{ e.stopPropagation(); if(!S.me){ openLogin(); return; } menu(whoMenu.hidden); });
 document.addEventListener('click', e=>{ if(!whoMenu.hidden && !whoMenu.contains(e.target)) menu(false); });
-$('#mSwitch').onclick=()=>{ menu(false); openLogin(); };
+$('#mSwitch').onclick=()=>{ menu(false); logout(); };
 $('#mLogout').onclick=()=>{ menu(false); logout(); };
 $('#mAdmin').onclick=()=>{ menu(false); openPin(); };
 $('#mEdit').onclick=()=>{ menu(false); openAdmin(); };
-$('#mAdminOut').onclick=()=>{ menu(false); S.admin=false; renderWho(); toast('관리자 모드를 끝냈어요'); };
+$('#mAdminOut').onclick=()=>{ menu(false); S.admin=false; S.adminToken=null; renderWho(); toast('관리자 모드를 끝냈어요'); };
 
 /* ── 관리자 PIN (#026과 연결) ── */
-const pin = document.querySelector('.u026');
-pin.qCheck = v => Store.verifyAdmin(v);   // 서버 확인(Promise) 결과로 성공·실패 흐름을 재생합니다
+const pin = document.querySelector('#pinOv .u026');
+pin.qCheck = async v => { let ok=false; try { ok = await Store.verifyAdmin(v); } catch(e){ S.lastError='연결이 불안정해요'; } if(!ok) pin.qFail = S.lastError || 'PIN이 맞지 않아요'; S.lastError=null; return ok; };   // 서버 확인(Promise) 결과로 성공·실패 흐름을 재생합니다
 pin.qOnOk = ()=>{ setTimeout(()=>{ $('#pinOv').hidden=true; S.admin=true; renderWho(); toast('🔐 관리자 모드가 켜졌어요'); openAdmin(); },700); };
 function openPin(){ pin.qReset(); $('#pinOv').hidden=false; setTimeout(()=>pin.querySelector('.u026-real').focus(),60); }
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>{ $('#'+b.dataset.close).hidden=true; }));
@@ -1120,7 +1286,7 @@ const adm = document.querySelector('.q-admin');
 const nv = adm.querySelector('.u250-nv'), fm = adm.querySelector('.u250-fm'), br = adm.querySelector('.u250-br'), tx = adm.querySelector('.u250-tx'), cx = adm.querySelector('.u250-cx'), sv = adm.querySelector('.u250-sv');
 const GROUPS = [...new Set(DEFAULT_SETTINGS.map(r=>r[2]))].concat('회원');
 let saved = {}, now = {}, group = GROUPS[0], savedM = [], nowM = [];
-const mKey = m => JSON.stringify([m.name,m.nick,m.role,m.phone,m.email,m.active!==false]);
+const mKey = m => JSON.stringify([m.name,m.nick,m.role,m.phone,m.email,m.active!==false,m.pin||'']);
 function changedM(){ return nowM.filter(m=>{ const o=savedM.find(x=>x.id===m.id); return !o || mKey(o)!==mKey(m); }); }
 function changed(){ return Object.keys(now).filter(k=>now[k]!==saved[k]).concat(changedM().map(m=>'M:'+m.id)); }
 function diff(){
@@ -1139,8 +1305,8 @@ function warn(){
 }
 function drawNav(){ nv.innerHTML = GROUPS.map(g=>`<a href="#" data-g="${g}" ${g===group?'aria-current="page"':''}>${g}</a>`).join(''); }
 function drawMembers(){
-  const F=[['nick','닉네임'],['name','이름'],['phone','휴대폰'],['email','메일'],['role','역할']];
-  fm.innerHTML = '<div class="mtab-list">'+nowM.map(m=>`<div class="mrow ${m.active===false?'off':''}"><div class="mrow-h"><span class="av" style="--g:${grad(m.id)}">${esc(ini(m))}</span><b>${esc(m.nick||'새 회원')}</b><small>${m.active===false?'휴면':'활동'}</small><button type="button" class="u250-sw" role="switch" aria-checked="${m.active!==false}" aria-label="${esc(m.nick)} 활동 여부" data-sw="${m.id}"></button></div><div class="mrow-g">${F.map(([f,l])=>`<label>${l}<input class="u250-in" data-id="${m.id}" data-f="${f}" value="${esc(m[f]||'')}" autocomplete="off" ${f==='phone'?'inputmode="tel"':f==='email'?'inputmode="email"':''}></label>`).join('')}</div></div>`).join('')+'</div><button type="button" class="m-add" id="mAdd">＋ 회원 추가</button><div class="admin-note">회원은 지우지 않고 <b>휴면</b>으로 돌려 기록을 남깁니다. 연락처는 로그인한 회원에게만 보입니다.</div>';
+  const F=[['nick','닉네임'],['name','이름'],['phone','휴대폰'],['email','메일'],['role','역할'],['pin','로그인 PIN']];
+  fm.innerHTML = '<div class="mtab-list">'+nowM.map(m=>`<div class="mrow ${m.active===false?'off':''}"><div class="mrow-h"><span class="av" style="--g:${grad(m.id)}">${esc(ini(m))}</span><b>${esc(m.nick||'새 회원')}</b><small>${m.active===false?'휴면':'활동'}</small><button type="button" class="u250-sw" role="switch" aria-checked="${m.active!==false}" aria-label="${esc(m.nick)} 활동 여부" data-sw="${m.id}"></button></div><div class="mrow-g">${F.map(([f,l])=>`<label>${l}<input class="u250-in" data-id="${m.id}" data-f="${f}" value="${esc(m[f]||'')}" autocomplete="off" ${f==='phone'?'inputmode="tel"':f==='email'?'inputmode="email"':f==='pin'?'inputmode="numeric" maxlength="4" placeholder="바꿀 때만 4자리"':''}></label>`).join('')}</div></div>`).join('')+'</div><button type="button" class="m-add" id="mAdd">＋ 회원 추가</button><div class="admin-note">회원은 지우지 않고 <b>휴면</b>으로 돌려 기록을 남깁니다. 연락처는 로그인한 회원에게만 보입니다. 로그인 PIN을 비워 두면 <b>전화번호 뒷자리 4자리</b>로 로그인합니다.</div>';
   diff();
 }
 function drawForm(){
@@ -1179,10 +1345,15 @@ sv.addEventListener('click', async ()=>{
   const ch = {}; Object.keys(now).filter(k=>now[k]!==saved[k]).forEach(k=>ch[k]=now[k]);
   const mDirty = changedM().length>0;
   nowM = nowM.filter(m=>m.name||m.nick);
-  await Promise.all([Object.keys(ch).length?Store.saveSettings(ch):0, mDirty?Store.saveMembers(nowM):0, new Promise(r=>setTimeout(r,650))]);
+  let res;
+  try { res = await Promise.all([Object.keys(ch).length?Store.saveSettings(ch):{ok:true}, mDirty?Store.saveMembers(nowM):{ok:true}, new Promise(r=>setTimeout(r,650))]); }
+  catch(e){ res = [{ok:false,error:'연결이 불안정해요'}]; }
+  const bad = res.slice(0,2).find(r=>r && r.ok===false);
+  if (bad){ sv.classList.remove('is-busy'); tx.textContent='저장하지 못했어요: '+(bad.error||''); br.classList.remove('is-warn'); void br.offsetWidth; br.classList.add('is-warn'); authFail(bad); return; }
+  nowM.forEach(m=>{ m.pin=''; });
   sv.classList.remove('is-busy'); saved = Object.assign({}, now); savedM = nowM.map(m=>Object.assign({},m));
   Object.assign(S.settings, ch); applySettings();
-  if (mDirty){ S.members = savedM.map(m=>Object.assign({},m)); if(S.me) S.me = memberOf(S.me.id); renderMembers(); renderWho(); syncCard(); if(group==='회원') drawMembers(); }
+  if (mDirty){ S.members = savedM.map(m=>Object.assign({},m)); S.roster = S.members.filter(m=>m.active!==false).map(m=>({id:m.id,name:m.name,nick:m.nick,role:m.role})); if(S.me) S.me = memberOf(S.me.id); renderMembers(); renderWho(); syncCard(); if(group==='회원') drawMembers(); }
   br.classList.remove('is-warn'); br.classList.add('is-ok'); tx.textContent='저장됐어요 · 화면에 반영했어요';
   fm.querySelectorAll('.is-dirty-f').forEach(el=>el.classList.remove('is-dirty-f'));
   setTimeout(()=>{ adm.classList.remove('is-dirty'); cx.tabIndex = sv.tabIndex = -1; },900);
@@ -1190,7 +1361,7 @@ sv.addEventListener('click', async ()=>{
 function openAdmin(){
   if(!S.admin){ openPin(); return; }
   saved = Object.assign({}, S.settings); now = Object.assign({}, saved); group = GROUPS[0];
-  savedM = S.members.map(m=>Object.assign({},m)); nowM = S.members.map(m=>Object.assign({},m));
+  savedM = S.members.map(m=>Object.assign({},m,{pin:''})); nowM = S.members.map(m=>Object.assign({},m,{pin:''}));
   drawNav(); drawForm(); $('#adminDr').hidden=false;
   setTimeout(()=>fm.querySelector('.u250-in').focus(),80);
 }
@@ -1201,6 +1372,7 @@ document.addEventListener('keydown', e=>{
   if (e.key!=='Escape') return;
   if (!$('#adminDr').hidden) closeAdmin();
   else if (!$('#pinOv').hidden) $('#pinOv').hidden=true;
+  else if (!$('#loginPinStep').hidden && !$('#loginOv').hidden) openLogin();
   else if (!whoMenu.hidden) { menu(false); whoBtn.focus(); }
 });
 
@@ -1211,13 +1383,15 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) links
 
 /* ── 시작 ── */
 (async function init(){
-  Object.assign(S, await Store.load());
-  applySettings(); renderMembers();
-  const saved = local.get('user');
-  S.me = saved ? memberOf(saved) || null : null;
-  if (S.me && S.me.active===false) S.me = null;
-  renderWho(); syncCard();
-  if (!S.me) openLogin();
+  document.body.classList.add('locked');
+  const cached = !DEMO && local.get('boot');
+  if (cached){ S.settings = cached.settings||{}; S.roster = cached.roster||[]; applySettings(); }
+  try { const b = await Store.boot(); S.settings = b.settings; S.roster = b.roster; }
+  catch(e){ if (!cached) toast('⚠️ 사이트 정보를 불러오지 못했어요'); }
+  applySettings(); renderMembers(); renderWho(); syncCard();
+  S.token = local.get('token');
+  if (S.token && await loadData()) return;
+  S.token = null; openLogin();
 })();
 
 /* ── 회원 연락 시트: 전화 · 문자 · 메일 ── */
@@ -1243,7 +1417,7 @@ function openContact(m){
 }
 $('#memberList').addEventListener('click', e=>{
   const b = e.target.closest('.mem'); if(!b) return;
-  if (!S.me){ openLogin(); toast('연락처는 로그인한 회원만 볼 수 있어요'); return; }
+  if (!S.me){ openLogin(); return; }
   openContact(memberOf(b.dataset.id));
 });
 $('#ctInfo').addEventListener('click', async e=>{
