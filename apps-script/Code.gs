@@ -10,6 +10,7 @@
  *   POST {action:'rsvp', token, status}
  *   POST {action:'admin', token, pin}  → 관리자 토큰(6시간)
  *   POST {action:'profile', token, nick, phone, email, pin} → 본인 정보만 수정
+ *   POST {action:'poll_create' | 'poll_vote' | 'poll_add' | 'poll_close', token, …} → 투표
  * 관리자 전용
  *   POST {action:'settings', adminToken, changes}
  *   POST {action:'members',  adminToken, list}
@@ -30,6 +31,7 @@ function doGet(e) {
     const p = (e && e.parameter) || {};
     if (p.action === 'boot' || !p.action) return json_(boot_());
     if (p.action === 'data') return json_(data_(memberOfToken_(p.token)));
+    if (p.action === 'polls') return json_({ ok: true, polls: polls_(memberOfToken_(p.token)) });
     if (p.action === 'ping') return json_({ ok: true, at: new Date().toISOString() });
     return json_({ ok: false, error: 'unknown action' });
   } catch (err) {
@@ -47,6 +49,10 @@ function doPost(e) {
       case 'rsvp':     return json_(saveRsvp_(memberOfToken_(b.token), b.status));
       case 'admin':    return json_(adminLogin_(memberOfToken_(b.token), b.pin));
       case 'profile':  return json_(saveProfile_(memberOfToken_(b.token), b));
+      case 'poll_create': return json_(pollCreate_(memberOfToken_(b.token), b.poll || {}));
+      case 'poll_vote':   return json_(pollVote_(memberOfToken_(b.token), b));
+      case 'poll_add':    return json_(pollAdd_(memberOfToken_(b.token), b));
+      case 'poll_close':  return json_(pollClose_(memberOfToken_(b.token), b));
       case 'settings': requireAdmin_(b.adminToken); return json_(saveSettings_(b.changes || {}));
       case 'members':  requireAdmin_(b.adminToken); return json_(saveMembers_(b.list || []));
       default:         return json_({ ok: false, error: 'unknown action' });
@@ -104,7 +110,7 @@ function data_(me) {
     amount: Number(r.amount) || 0, memo: str_(r.memo)
   })).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 40);
 
-  return { ok: true, me: me, settings: publicSettings_(), members, meetingId, rsvp, paid, duesMonth: month, ledger };
+  return { ok: true, me: me, settings: publicSettings_(), members, meetingId, rsvp, paid, duesMonth: month, ledger, polls: polls_(me) };
 }
 
 function saveRsvp_(memberId, status) {
@@ -160,6 +166,122 @@ function saveProfile_(memberId, b) {
   sh.getRange(i + 1, col('email') + 1).setValue(email);
   if (pin && col('pin') >= 0) sh.getRange(i + 1, col('pin') + 1).setValue("'" + pin);
   return { ok: true, member: { id: memberId, nick: nick, phone: phone ? phone_(phone) : '', email: email } };
+}
+
+/* ---------- 투표 ----------
+ * Polls:       id | title | desc | kind(date/place/free) | anonymous | multi | allow_add | show(always/voted/closed) | deadline | status | created_by | created_at
+ * PollOptions: poll_id | opt_id | label | sub | added_by
+ * PollVotes:   poll_id | member_id | opt_ids(쉼표) | updated_at
+ * 익명 투표: 중복 방지를 위해 시트에는 회원 ID가 남지만, 사이트로는 누가 골랐는지 보내지 않습니다.
+ */
+function bool_(v) { return v === true || String(v).toUpperCase() === 'TRUE'; }
+function kst_(s) { s = str_(s); if (!s) return 0; const t = new Date(s.replace(' ', 'T') + (s.length <= 16 ? ':00' : '') + '+09:00').getTime(); return isNaN(t) ? 0 : t; }
+
+function polls_(me) {
+  const now = Date.now(), members = members_();
+  const nick = id => (members.find(m => m.id === id) || {}).nick || '?';
+  const opts = rows_('PollOptions'), votes = rows_('PollVotes');
+  const list = rows_('Polls').map(r => {
+    const p = {
+      id: str_(r.id), title: str_(r.title), desc: str_(r.desc), kind: str_(r.kind) || 'free',
+      anonymous: bool_(r.anonymous), multi: bool_(r.multi), allowAdd: bool_(r.allow_add),
+      show: str_(r.show) || 'always', deadline: str_(r.deadline),
+      createdBy: str_(r.created_by), createdByNick: nick(str_(r.created_by)), createdAt: str_(r.created_at)
+    };
+    const dl = kst_(p.deadline);
+    p.closed = str_(r.status) === 'closed' || (dl > 0 && dl < now);
+    const vs = votes.filter(v => str_(v.poll_id) === p.id)
+      .map(v => ({ m: str_(v.member_id), o: str_(v.opt_ids).split(',').filter(String) }))
+      .filter(v => v.o.length);
+    const mine = vs.find(v => v.m === me);
+    p.myVote = mine ? mine.o : [];
+    p.voters = vs.length;
+    p.canSee = p.closed || p.show === 'always' || (p.show === 'voted' && !!mine);
+    p.options = opts.filter(o => str_(o.poll_id) === p.id).map(o => {
+      const id = str_(o.opt_id), who = vs.filter(v => v.o.indexOf(id) >= 0);
+      return {
+        id, label: str_(o.label), sub: str_(o.sub), addedBy: p.anonymous ? '' : nick(str_(o.added_by)),
+        count: p.canSee ? who.length : null,
+        names: p.canSee && !p.anonymous ? who.map(v => nick(v.m)) : null
+      };
+    });
+    p.mine = p.createdBy === me;
+    return p;
+  }).filter(p => p.id);
+  const open = list.filter(p => !p.closed).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  const done = list.filter(p => p.closed).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 6);
+  return open.concat(done);
+}
+
+function pollRow_(id) {
+  const sh = sheet_('Polls'), data = sh.getDataRange().getValues(), head = data[0].map(String);
+  const i = data.findIndex((r, n) => n > 0 && str_(r[head.indexOf('id')]) === id);
+  if (i < 1) throw new Error('없는 투표입니다');
+  const o = {}; head.forEach((h, k) => o[h] = data[i][k]);
+  const dl = kst_(o.deadline);
+  o._closed = str_(o.status) === 'closed' || (dl > 0 && dl < Date.now());
+  o._row = i + 1; o._sh = sh; o._head = head;
+  return o;
+}
+
+function pollCreate_(me, p) {
+  const title = str_(p.title), kind = ['date', 'place', 'free'].indexOf(p.kind) >= 0 ? p.kind : 'free';
+  const options = (p.options || []).map(o => ({ label: str_(o.label).slice(0, 60), sub: str_(o.sub).slice(0, 200) })).filter(o => o.label);
+  if (!title) throw new Error('투표 제목을 입력해 주세요');
+  if (options.length < (p.allowAdd ? 1 : 2)) throw new Error('선택지를 2개 이상 넣어 주세요');
+  if (options.length > 20) throw new Error('선택지는 20개까지 넣을 수 있어요');
+  const show = ['always', 'voted', 'closed'].indexOf(p.show) >= 0 ? p.show : 'always';
+  const deadline = str_(p.deadline).replace('T', ' ').slice(0, 16);
+  const id = 'p' + Date.now().toString(36);
+  const sh = sheet_('Polls'), head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+  const row = head.map(h => ({
+    id, title: title.slice(0, 60), desc: str_(p.desc).slice(0, 300), kind,
+    anonymous: !!p.anonymous, multi: !!p.multi, allow_add: !!p.allowAdd, show,
+    deadline: deadline ? "'" + deadline : '', status: 'open', created_by: me,
+    created_at: Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss')
+  })[h] ?? '');
+  sh.appendRow(row);
+  const os = sheet_('PollOptions');
+  os.getRange(os.getLastRow() + 1, 1, options.length, 5)
+    .setValues(options.map((o, k) => [id, 'o' + (k + 1), o.label, o.sub, me]));
+  return { ok: true, pollId: id, polls: polls_(me) };
+}
+
+function pollVote_(me, b) {
+  const p = pollRow_(str_(b.pollId));
+  if (p._closed) throw new Error('마감된 투표입니다');
+  const valid = rows_('PollOptions').filter(o => str_(o.poll_id) === str_(p.id)).map(o => str_(o.opt_id));
+  let ids = (b.optIds || []).map(str_).filter((x, i, a) => valid.indexOf(x) >= 0 && a.indexOf(x) === i);
+  if (!bool_(p.multi) && ids.length > 1) throw new Error('하나만 고를 수 있는 투표입니다');
+  const sh = sheet_('PollVotes'), data = sh.getDataRange().getValues(), head = data[0].map(String);
+  const cP = head.indexOf('poll_id'), cM = head.indexOf('member_id'), cO = head.indexOf('opt_ids'), cT = head.indexOf('updated_at');
+  const i = data.findIndex((r, n) => n > 0 && str_(r[cP]) === str_(p.id) && str_(r[cM]) === me);
+  if (!ids.length) { if (i > 0) sh.deleteRow(i + 1); }                       // 투표 취소
+  else if (i > 0) { sh.getRange(i + 1, cO + 1).setValue("'" + ids.join(',')); sh.getRange(i + 1, cT + 1).setValue(new Date()); }
+  else { const row = []; row[cP] = p.id; row[cM] = me; row[cO] = "'" + ids.join(','); row[cT] = new Date(); sh.appendRow(row); }
+  return { ok: true, polls: polls_(me) };
+}
+
+function pollAdd_(me, b) {
+  const p = pollRow_(str_(b.pollId));
+  if (p._closed) throw new Error('마감된 투표입니다');
+  if (!bool_(p.allow_add) && str_(p.created_by) !== me) throw new Error('항목 추가가 허용되지 않은 투표입니다');
+  const label = str_(b.label).slice(0, 60), sub = str_(b.sub).slice(0, 200);
+  if (!label) throw new Error('추가할 항목을 입력해 주세요');
+  const mine = rows_('PollOptions').filter(o => str_(o.poll_id) === str_(p.id));
+  if (mine.length >= 20) throw new Error('선택지는 20개까지예요');
+  if (mine.some(o => str_(o.label) === label && str_(o.sub) === sub)) throw new Error('이미 있는 항목이에요');
+  const n = mine.reduce((mx, o) => Math.max(mx, Number(str_(o.opt_id).slice(1)) || 0), 0) + 1;
+  sheet_('PollOptions').appendRow([p.id, 'o' + n, label, sub, me]);
+  return { ok: true, optId: 'o' + n, polls: polls_(me) };
+}
+
+function pollClose_(me, b) {
+  const p = pollRow_(str_(b.pollId));
+  const isAdmin = b.adminToken && CacheService.getScriptCache().get('adm:' + b.adminToken);
+  if (str_(p.created_by) !== me && !isAdmin) throw new Error('만든 사람이나 관리자만 마감할 수 있어요');
+  p._sh.getRange(p._row, p._head.indexOf('status') + 1).setValue(b.reopen ? 'open' : 'closed');
+  return { ok: true, polls: polls_(me) };
 }
 
 /* ---------- 관리자 전용 ---------- */
