@@ -10,7 +10,8 @@
  *   POST {action:'rsvp', token, status}
  *   POST {action:'admin', token, pin}  → 관리자 토큰(6시간)
  *   POST {action:'profile', token, nick, phone, email, pin} → 본인 정보만 수정
- *   POST {action:'poll_create' | 'poll_vote' | 'poll_add' | 'poll_close', token, …} → 투표
+ *   POST {action:'poll_vote' | 'poll_add' | 'poll_close', token, …} → 투표
+ *   POST {action:'poll_create', token, adminToken, poll} → 투표 만들기(관리자만)
  * 관리자 전용
  *   POST {action:'settings', adminToken, changes}
  *   POST {action:'members',  adminToken, list}
@@ -49,7 +50,7 @@ function doPost(e) {
       case 'rsvp':     return json_(saveRsvp_(memberOfToken_(b.token), b.status));
       case 'admin':    return json_(adminLogin_(memberOfToken_(b.token), b.pin));
       case 'profile':  return json_(saveProfile_(memberOfToken_(b.token), b));
-      case 'poll_create': return json_(pollCreate_(memberOfToken_(b.token), b.poll || {}));
+      case 'poll_create': { const me = memberOfToken_(b.token); requireAdmin_(b.adminToken); return json_(pollCreate_(me, b.poll || {})); }
       case 'poll_vote':   return json_(pollVote_(memberOfToken_(b.token), b));
       case 'poll_add':    return json_(pollAdd_(memberOfToken_(b.token), b));
       case 'poll_close':  return json_(pollClose_(memberOfToken_(b.token), b));

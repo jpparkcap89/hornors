@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://q.cap89.com/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://q.cap89.com/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='64' r='22' fill='%23e5484d'/%3E%3Ccircle cx='70' cy='64' r='22' fill='%23f5c518'/%3E%3Ccircle cx='50' cy='30' r='22' fill='%23fff' stroke='%23c7cfdb' stroke-width='3'/%3E%3C/svg%3E">">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='64' r='22' fill='%23e5484d'/%3E%3Ccircle cx='70' cy='64' r='22' fill='%23f5c518'/%3E%3Ccircle cx='50' cy='30' r='22' fill='%23fff' stroke='%23c7cfdb' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap">
 <style>
@@ -179,6 +179,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 .who-menu{position:absolute;right:0;top:50px;min-width:220px;padding:6px;border-radius:18px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border:1px solid var(--hairline);box-shadow:var(--shadow);animation:pageIn .25s both}
 .who-menu button{display:block;width:100%;padding:10px 12px;border:0;border-radius:12px;background:none;text-align:left;font:inherit;font-size:14px;font-weight:650;color:var(--ink);cursor:pointer}
 .who-menu button:hover{background:var(--ux-surface-2)}
+.who-menu button[hidden]{display:none}
 
 .rsvp-list{width:340px;max-width:100%;display:grid;gap:6px;font-size:13px}
 .rsvp-row{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.72);border:1px solid var(--hairline)}
@@ -408,6 +409,19 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 .sh-btns [hidden]{display:none}
 .sh-tip{margin:10px 0 0!important;font-size:12.5px!important;color:var(--muted);text-align:center}
 
+
+.pl-card{width:min(480px,100%);max-height:calc(100vh - 40px);overflow:auto;text-align:left}
+.pl-card h3,.pl-card>p{text-align:center}
+.pl-card .poll-grid{grid-template-columns:1fr;margin-top:16px}
+.pl-new{width:100%;justify-content:center;margin-top:14px}
+.pl-new[hidden]{display:none}
+.m-n{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:4px;padding:0 6px;border-radius:999px;background:#e5484d;color:#fff;font-size:11.5px;font-weight:800;vertical-align:1px}
+.m-n[hidden]{display:none}
+.who-btn{position:relative}
+.who-dot{position:absolute;left:30px;top:6px;width:10px;height:10px;border-radius:50%;background:#e5484d;box-shadow:0 0 0 2px #fff}
+.who-dot[hidden]{display:none}
+@media (max-height:700px){.pl-card,.pv-card,.pn-card{max-height:calc(100vh - 10px)}}
+
 /* Lucian roots: let fixed-size elements shrink on narrow screens */
 .u059,.u039{max-width:100%}
 .u044{width:100%!important;height:auto!important}
@@ -447,14 +461,16 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
   <div class="wrap">
     <a class="brand" href="#home" aria-label="홈"><span class="mark">Q</span><span><b data-s="SITE_TITLE">Q 아너스</b><small>Q HONORS CLUB</small></span></a>
     <nav class="menu" aria-label="주요 메뉴">
-      <a href="#polls">투표</a><a href="#about">소개</a><a href="#members">회원</a><a href="#money">회비</a><a href="#history">기록</a><a href="#rules">정관</a>
+      <a href="#about">소개</a><a href="#members">회원</a><a href="#money">회비</a><a href="#history">기록</a><a href="#rules">정관</a>
     </nav>
     <div class="who">
-      <button class="who-btn" type="button" id="whoBtn" aria-haspopup="menu" aria-expanded="false"><span class="av sm" id="whoAv">?</span><span id="whoName">로그인</span><span class="adm-badge" id="admBadge" hidden>관리자</span><span class="caret" aria-hidden="true">▾</span></button>
+      <button class="who-btn" type="button" id="whoBtn" aria-haspopup="menu" aria-expanded="false"><span class="av sm" id="whoAv">?</span><span id="whoName">로그인</span><span class="adm-badge" id="admBadge" hidden>관리자</span><span class="who-dot" id="whoDot" hidden aria-label="응답할 투표가 있어요"></span><span class="caret" aria-hidden="true">▾</span></button>
       <div class="who-menu" id="whoMenu" role="menu" hidden>
+        <button type="button" role="menuitem" id="mPolls">🗳️ 투표 <span class="m-n" id="mPollsN" hidden></span></button>
         <button type="button" role="menuitem" id="mProfile">✏️ 내 정보 수정</button>
         <button type="button" role="menuitem" id="mSwitch">🔄 다른 회원으로 로그인</button>
         <button type="button" role="menuitem" id="mAdmin">🔐 관리자 로그인</button>
+        <button type="button" role="menuitem" id="mNewPoll" hidden>＋ 새 투표 만들기</button>
         <button type="button" role="menuitem" id="mEdit" hidden>⚙️ 사이트 설정 편집</button>
         <button type="button" role="menuitem" id="mAdminOut" hidden>🚪 관리자 모드 끝내기</button>
         <button type="button" role="menuitem" id="mLogout">👋 로그아웃</button>
@@ -623,13 +639,6 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
 </script>
       <div class="rsvp-list" id="rsvpList" aria-live="polite"></div>
     </div>
-  </div>
-</section>
-
-<section class="sec" id="polls">
-  <div class="wrap">
-    <div class="sec-head row"><div><div class="kicker">VOTE</div><h2>🗳️ 투표</h2><p>모임 <strong>날짜와 장소</strong>를 함께 정해요. 익명·실명, 여러 개 선택도 고를 수 있어요.</p></div><button class="btn p" id="pollNew" type="button">＋ 새 투표</button></div>
-    <div class="poll-grid" id="pollList"></div>
   </div>
 </section>
 
@@ -1166,6 +1175,17 @@ body.locked main{filter:blur(6px);pointer-events:none;user-select:none}
   </form>
 </div>
 
+<!-- 투표 목록 -->
+<div class="overlay sheet" id="pollsOv" role="dialog" aria-modal="true" aria-labelledby="plTitle" hidden>
+  <div class="ct-card pl-card">
+    <button class="x-btn" type="button" data-close="pollsOv" aria-label="닫기">✕</button>
+    <h3 id="plTitle">🗳️ 투표</h3>
+    <p>모임 날짜와 장소를 함께 정해요.</p>
+    <div class="poll-grid" id="pollList"></div>
+    <button class="btn p pl-new" id="pollNew" type="button" hidden>＋ 새 투표 만들기</button>
+  </div>
+</div>
+
 <!-- 투표하기 -->
 <div class="overlay sheet" id="pollOv" role="dialog" aria-modal="true" aria-labelledby="pvTitle" hidden>
   <div class="ct-card pv-card">
@@ -1487,6 +1507,7 @@ function renderWho(){
   const av=$('#whoAv');
   if (S.me){ av.textContent=ini(S.me); av.style.setProperty('--g',grad(S.me.id)); $('#whoName').textContent=S.me.nick+'님'; }
   else { av.textContent='?'; av.style.setProperty('--g','linear-gradient(140deg,#98a2b3,#667085)'); $('#whoName').textContent='로그인'; }
+  if (typeof renderPolls==='function' && S.polls) try{ renderPolls(); }catch(e){}
   $('#admBadge').hidden=!S.admin; $('#mAdmin').hidden=S.admin; $('#mEdit').hidden=!S.admin; $('#mAdminOut').hidden=!S.admin;
 }
 
@@ -1607,7 +1628,7 @@ document.addEventListener('keydown', e=>{
 /* 메뉴 활성 표시 */
 const links=[...document.querySelectorAll('nav.menu a')];
 const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)); }),{rootMargin:'-45% 0px -50% 0px'});
-['polls','about','members','money','history','rules'].forEach(id=>io.observe(document.getElementById(id)));
+['about','members','money','history','rules'].forEach(id=>io.observe(document.getElementById(id)));
 
 /* ── 시작 ── */
 (async function init(){
@@ -1771,7 +1792,7 @@ const DemoPolls = {
 };
 Object.assign(Store, {
   async polls(){ return DEMO ? { ok:true, polls:DemoPolls.list(S.me&&S.me.id) } : api.get({action:'polls', token:S.token}); },
-  async pollCreate(poll){ return DEMO ? DemoPolls.create(S.me.id, poll) : api.post({action:'poll_create', token:S.token, poll}); },
+  async pollCreate(poll){ if (DEMO) return S.admin ? DemoPolls.create(S.me.id, poll) : {ok:false,error:'관리자만 만들 수 있어요'}; return api.post({action:'poll_create', token:S.token, adminToken:S.adminToken, poll}); },
   async pollVote(pollId, optIds){ return DEMO ? DemoPolls.vote(S.me.id, pollId, optIds) : api.post({action:'poll_vote', token:S.token, pollId, optIds}); },
   async pollAdd(pollId, label, sub){ return DEMO ? DemoPolls.add(S.me.id, pollId, label, sub) : api.post({action:'poll_add', token:S.token, pollId, label, sub}); },
   async pollClose(pollId, reopen){ return DEMO ? DemoPolls.close(S.me.id, pollId, reopen) : api.post({action:'poll_close', token:S.token, adminToken:S.adminToken, pollId, reopen:!!reopen}); }
@@ -1782,8 +1803,12 @@ async function call(fn){ let r; try { r = await fn(); } catch(e){ r = { ok:false
 S.polls = [];
 function renderPolls(){
   const box = $('#pollList'); if (!box) return;
+  const todo = S.polls.filter(p=>!p.closed && !p.myVote.length).length;
+  $('#mPollsN').textContent = todo ? todo : ''; $('#mPollsN').hidden = !todo;
+  $('#whoDot').hidden = !todo;
+  $('#pollNew').hidden = !S.admin; $('#mNewPoll').hidden = !S.admin;
   if (!S.me){ box.innerHTML = ''; return; }
-  if (!S.polls.length){ box.innerHTML = '<div class="poll-empty">아직 진행 중인 투표가 없어요.<br><b>＋ 새 투표</b>로 날짜나 장소를 물어보세요.</div>'; return; }
+  if (!S.polls.length){ box.innerHTML = '<div class="poll-empty">진행 중인 투표가 없어요.'+(S.admin?'<br><b>＋ 새 투표</b>로 날짜나 장소를 물어보세요.':'')+'</div>'; return; }
   box.innerHTML = S.polls.map(p=>{
     const k = KIND[p.kind]||KIND.free, voted = p.myVote.length>0;
     const top = p.canSee ? [...p.options].sort((a,b)=>(b.count||0)-(a.count||0))[0] : null;
@@ -1914,7 +1939,12 @@ function openNewPoll(){
   setKind('date'); $('#pnErr').textContent='';
   $('#pollNewOv').hidden = false; setTimeout(()=>nf.title.focus(),60);
 }
-$('#pollNew').addEventListener('click', ()=>{ if (!S.me) return openLogin(); openNewPoll(); });
+function newPollGate(){ if (!S.me) return openLogin(); if (!S.admin){ toast('투표는 관리자만 만들 수 있어요'); return openPin(); } openNewPoll(); }
+$('#pollNew').addEventListener('click', newPollGate);
+$('#mNewPoll').onclick = ()=>{ menu(false); newPollGate(); };
+$('#mPolls').onclick = ()=>{ menu(false); openPollList(); };
+function openPollList(){ renderPolls(); $('#pollsOv').hidden = false; setTimeout(()=>{ const f=$('#pollList .poll-card')||$('#pollsOv .x-btn'); f.focus(); },60); }
+$('#pollsOv').addEventListener('click', e=>{ if (e.target.id==='pollsOv') $('#pollsOv').hidden=true; });
 nf.title.addEventListener('input', ()=>nf.title.dataset.touched='1');
 nf.querySelector('.pn-kind').addEventListener('click', e=>{ const b=e.target.closest('button'); if (b) setKind(b.dataset.k, true); });
 nf.querySelector('.pn-show').addEventListener('click', e=>{ const b=e.target.closest('button'); if (!b) return; nf.querySelectorAll('.pn-show button').forEach(x=>x.setAttribute('aria-checked', x===b)); });
@@ -1941,7 +1971,7 @@ nf.addEventListener('submit', async e=>{
   if (r){ $('#pollNewOv').hidden=true; openPoll(r.pollId); openShare(r.pollId, true); }
 });
 ['pollOv','pollNewOv'].forEach(id=>$('#'+id).addEventListener('click', e=>{ if (e.target.id===id) $('#'+id).hidden=true; }));
-document.addEventListener('keydown', e=>{ if (e.key!=='Escape') return; ['pollNewOv','pollOv'].some(id=>{ if (!$('#'+id).hidden){ $('#'+id).hidden=true; return true; } }); });
+document.addEventListener('keydown', e=>{ if (e.key!=='Escape') return; ['pollNewOv','pollOv','pollsOv'].some(id=>{ if (!$('#'+id).hidden){ $('#'+id).hidden=true; return true; } }); });
 
 /* ── 투표 링크: q.cap89.com/#poll-<id> → 로그인 후 바로 그 투표가 열립니다 ── */
 const SITE_URL = location.origin && /^https?:/.test(location.origin) ? location.origin + location.pathname : 'https://q.cap89.com/';
@@ -1985,7 +2015,6 @@ async function openPollFromHash(){
   let p = S.polls.find(x=>x.id===id);
   if (!p){ const r = await call(()=>Store.polls()); p = r && S.polls.find(x=>x.id===id); }
   if (!p){ toast('찾을 수 없는 투표예요. 지워졌거나 오래된 링크일 수 있어요'); return; }
-  document.getElementById('polls').scrollIntoView({behavior:'smooth'});
   openPoll(id);
 }
 window.addEventListener('hashchange', openPollFromHash);
